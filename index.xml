@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>恶意</title>
+    <link>https://kindf.github.io/</link>
+    <description>Recent content on 恶意</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Dec 2019 21:18:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://kindf.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Myblog</title>
+      <link>https://kindf.github.io/post/myblog/</link>
+      <pubDate>Sun, 08 Dec 2019 21:18:51 +0800</pubDate>
+      
+      <guid>https://kindf.github.io/post/myblog/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
