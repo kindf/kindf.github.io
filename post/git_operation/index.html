@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>git基本操作 // 恶意</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.60.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="kindf" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="git基本操作"/>
+<meta name="twitter:description" content="git add --all
+git add 文件名
+git commit -m “备注”
+git log
+git log –pretty=oneline
+git status
+git diff 文件名
+git reset --hard HEAD^
+git reset --hard HEAD~100
+git reset --hard 版本号
+git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销
+git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：
+ 一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+  一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+ git reset HEAD 可以把暂存区的修改撤销掉（unstage），重新放回工作区
+理解工作区与暂存区的区别？
+工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。 版本库(Repository)：工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。
+我们前面说过使用Git提交文件到版本库有两步：
+第一步：是使用 git add 把文件添加进去，实际上就是把文件添加到暂存区。
+第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。
+菜鸟教程git教程(https://www.runoob.com/git/git-basic-operations.html)
+廖雪峰老师的git教程(https://www.liaoxuefeng.com/wiki/896043488029600)"/>
+
+    <meta property="og:title" content="git基本操作" />
+<meta property="og:description" content="git add --all
+git add 文件名
+git commit -m “备注”
+git log
+git log –pretty=oneline
+git status
+git diff 文件名
+git reset --hard HEAD^
+git reset --hard HEAD~100
+git reset --hard 版本号
+git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销
+git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：
+ 一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
+  一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
+ git reset HEAD 可以把暂存区的修改撤销掉（unstage），重新放回工作区
+理解工作区与暂存区的区别？
+工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。 版本库(Repository)：工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。
+我们前面说过使用Git提交文件到版本库有两步：
+第一步：是使用 git add 把文件添加进去，实际上就是把文件添加到暂存区。
+第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。
+菜鸟教程git教程(https://www.runoob.com/git/git-basic-operations.html)
+廖雪峰老师的git教程(https://www.liaoxuefeng.com/wiki/896043488029600)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kindf.github.io/post/git_operation/" />
+<meta property="article:published_time" content="2019-12-10T22:39:34+08:00" />
+<meta property="article:modified_time" content="2019-12-10T22:39:34+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://kindf.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
+      <h1>恶意</h1>
+      <p>学习笔记</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://www.github.com/kindf" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.baidu.com" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-link">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">git基本操作</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 10, 2019
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <p>git add --all</p>
+<p>git add 文件名</p>
+<p>git commit -m “备注”</p>
+<p>git log</p>
+<p>git log –pretty=oneline</p>
+<p>git status</p>
+<p>git diff 文件名</p>
+<p>git reset --hard HEAD^</p>
+<p>git reset --hard HEAD~100</p>
+<p>git reset --hard 版本号</p>
+<p>git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销</p>
+<p>git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：</p>
+<blockquote>
+<p>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；</p>
+</blockquote>
+<blockquote>
+<p>一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。</p>
+</blockquote>
+<p>git reset HEAD <!-- raw HTML omitted -->可以把暂存区的修改撤销掉（unstage），重新放回工作区</p>
+<p>理解工作区与暂存区的区别？</p>
+<p>工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。
+版本库(Repository)：工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。</p>
+<p>我们前面说过使用Git提交文件到版本库有两步：</p>
+<p>第一步：是使用 git add 把文件添加进去，实际上就是把文件添加到暂存区。</p>
+<p>第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。</p>
+<p><a href="https://www.runoob.com/git/git-basic-operations.html">菜鸟教程git教程(<a href="https://www.runoob.com/git/git-basic-operations.html">https://www.runoob.com/git/git-basic-operations.html</a>)</a></p>
+<p><a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰老师的git教程(<a href="https://www.liaoxuefeng.com/wiki/896043488029600">https://www.liaoxuefeng.com/wiki/896043488029600</a>)</a></p>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
