@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Linux_operation // 恶意</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.60.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="kindf" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
+
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Linux_operation"/>
+<meta name="twitter:description" content="linux基本操作  man(manual缩写):联机手册内容
+ man name
+man section name(制定章节编号):section参数:1(命令),2(系统调用),3(库函数),5(配置文件)
+man -k regexp:列出关键字与正则表达式regexp匹配的手册项目目录
+   bc(计算器)
+ bc -l:缺省精度为小数点20位
+   who:确定有谁在系统中
+ 可以打印出当前终端的设备文件名
+who a i:可以列出当前终端上的登录用户
+whoami:仅列出当前终端上的登录
+   uptime:已开机时间(系统年龄)
+  top:列出资源占用排名靠前的进程
+ VIRT:进程逻辑地址空间大小(virtual),观察是否内存泄露
+RES:驻留内存数(resident),也就是占用物理内存数
+SHR:与其他进程共享的内存数(share)
+%CPU:占用CPU百分比
+%MEM:占用内存百分比
+TIME&#43;:占用的CPU时间
+   ps(process status):查阅进程状态
+ 无选项:只列出在当前终端上启动的进程
+e选项:列出系统中所有的进程(进程范围)
+f选项:以full格式列出每一个进程(控制列的数目)
+l选项:以long格式列出每一个进程(控制列的数目)
+命令ps列出的进程属性
+ UID:用户ID(注册名)
+PID:进程ID PPID:父进程的PID
+C:CPU占用指数:最近一段时间(秒级别)进程占用CPU情况
+STIME:启动时间
+SZ:进程逻辑内存大小(size)
+TTY:终端的名字
+COMMAND/CMD:命令名
+WCHAN:进程在内核的何处睡眠(Wait Channel)
+TIME:累计执行时间(占用的CPU时间)
+S:状态,S(Sleep), R(Run), Z(Zombie)
+   文本文件  重定向机制"/>
+
+    <meta property="og:title" content="Linux_operation" />
+<meta property="og:description" content="linux基本操作  man(manual缩写):联机手册内容
+ man name
+man section name(制定章节编号):section参数:1(命令),2(系统调用),3(库函数),5(配置文件)
+man -k regexp:列出关键字与正则表达式regexp匹配的手册项目目录
+   bc(计算器)
+ bc -l:缺省精度为小数点20位
+   who:确定有谁在系统中
+ 可以打印出当前终端的设备文件名
+who a i:可以列出当前终端上的登录用户
+whoami:仅列出当前终端上的登录
+   uptime:已开机时间(系统年龄)
+  top:列出资源占用排名靠前的进程
+ VIRT:进程逻辑地址空间大小(virtual),观察是否内存泄露
+RES:驻留内存数(resident),也就是占用物理内存数
+SHR:与其他进程共享的内存数(share)
+%CPU:占用CPU百分比
+%MEM:占用内存百分比
+TIME&#43;:占用的CPU时间
+   ps(process status):查阅进程状态
+ 无选项:只列出在当前终端上启动的进程
+e选项:列出系统中所有的进程(进程范围)
+f选项:以full格式列出每一个进程(控制列的数目)
+l选项:以long格式列出每一个进程(控制列的数目)
+命令ps列出的进程属性
+ UID:用户ID(注册名)
+PID:进程ID PPID:父进程的PID
+C:CPU占用指数:最近一段时间(秒级别)进程占用CPU情况
+STIME:启动时间
+SZ:进程逻辑内存大小(size)
+TTY:终端的名字
+COMMAND/CMD:命令名
+WCHAN:进程在内核的何处睡眠(Wait Channel)
+TIME:累计执行时间(占用的CPU时间)
+S:状态,S(Sleep), R(Run), Z(Zombie)
+   文本文件  重定向机制" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kindf.github.io/post/linux_operation/" />
+<meta property="article:published_time" content="2020-01-01T13:06:41+08:00" />
+<meta property="article:modified_time" content="2020-01-01T13:06:41+08:00" />
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://kindf.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
+      <h1>恶意</h1>
+      <p>学习笔记</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://www.github.com/kindf" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.baidu.com" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-link">
+  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Linux_operation</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 1, 2020
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          1 min read
+        </div></div>
+    </header>
+    <div class="post-content">
+      <h4 id="linux">linux基本操作</h4>
+<blockquote>
+<p>man(manual缩写):联机手册内容</p>
+<blockquote>
+<p>man name<br>
+man section name(制定章节编号):section参数:1(命令),2(系统调用),3(库函数),5(配置文件)<br>
+man -k regexp:列出关键字与正则表达式regexp匹配的手册项目目录</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>bc(计算器)</p>
+<blockquote>
+<p>bc -l:缺省精度为小数点20位</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>who:确定有谁在系统中</p>
+<blockquote>
+<p>可以打印出当前终端的设备文件名<br>
+who a i:可以列出当前终端上的登录用户<br>
+whoami:仅列出当前终端上的登录</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>uptime:已开机时间(系统年龄)</p>
+</blockquote>
+<blockquote>
+<p>top:列出资源占用排名靠前的进程</p>
+<blockquote>
+<p>VIRT:进程逻辑地址空间大小(virtual),观察是否内存泄露<br>
+RES:驻留内存数(resident),也就是占用物理内存数<br>
+SHR:与其他进程共享的内存数(share)<br>
+%CPU:占用CPU百分比<br>
+%MEM:占用内存百分比<br>
+TIME+:占用的CPU时间</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>ps(process status):查阅进程状态</p>
+<blockquote>
+<p>无选项:只列出在当前终端上启动的进程<br>
+e选项:列出系统中所有的进程(进程范围)<br>
+f选项:以full格式列出每一个进程(控制列的数目)<br>
+l选项:以long格式列出每一个进程(控制列的数目)<br>
+命令ps列出的进程属性</p>
+<blockquote>
+<p>UID:用户ID(注册名)<br>
+PID:进程ID  PPID:父进程的PID<br>
+C:CPU占用指数:最近一段时间(秒级别)进程占用CPU情况<br>
+STIME:启动时间<br>
+SZ:进程逻辑内存大小(size)<br>
+TTY:终端的名字<br>
+COMMAND/CMD:命令名<br>
+WCHAN:进程在内核的何处睡眠(Wait Channel)<br>
+TIME:累计执行时间(占用的CPU时间)<br>
+S:状态,S(Sleep), R(Run), Z(Zombie)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<h4 id="heading">文本文件</h4>
+<blockquote>
+<p>重定向机制</p>
+<blockquote>
+<p>输出重定向:ls -l &gt; filelist.txt<br>
+输入重定向:sort &lt; filelist.txt<br>
+管道机制<br>
+ls -l | sort<br>
+文本文件读取与处理的命令<br>
+more/less:逐屏显示文件(可与重定向或管道配合使用)<br>
+cat/od:列出文件内容</p>
+<blockquote>
+<p>cat:文本格式打印(-n:行号)<br>
+od:逐字节打印<br>
+head与tail:显示文件的头部或者尾部(默认10行,-n可选择行数,-f:实时打印)<br>
+tee:三通<br>
+将从标准输入stdin得到的数据抄送到标准输出stdout显示,同时存入磁盘文件中<br>
+例:./myap | tee myap.log<br>
+wc:字计数(统计文件中的单词,行,字符数,-l:只列出行计数)<br>
+sort:对文件内容排序<br>
+-n选项:对于数字按照算数值大小排序<br>
+有多个选项(man sort)<br>
+正则表达式<br>
+六个元字符(. * [ \ ^ $)<br>
+grep/egrpe/fgrep:在文件中查找字符串(筛选)<br>
+grep 模式(正则表达式) 文件名列表<br>
+-n 显示时每行前面显示行号<br>
+-v 显示所有不包含模式的行<br>
+-i 字母比较时忽略字母的大小写<br>
+sed:流编辑(加工)<br>
+awk:逐行扫描进行文本处理的一门语言(筛选与加工)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

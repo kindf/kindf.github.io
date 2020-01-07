@@ -12,52 +12,38 @@
     
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="git基本操作"/>
-<meta name="twitter:description" content="git add --all
-git add 文件名
-git commit -m “备注”
-git log
-git log –pretty=oneline
-git status
-git diff 文件名
-git reset --hard HEAD^
-git reset --hard HEAD~100
-git reset --hard 版本号
-git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销
-git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：
- 一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
-  一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
- git reset HEAD 可以把暂存区的修改撤销掉（unstage），重新放回工作区
-理解工作区与暂存区的区别？
-工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。 版本库(Repository)：工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。
-我们前面说过使用Git提交文件到版本库有两步：
-第一步：是使用 git add 把文件添加进去，实际上就是把文件添加到暂存区。
-第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。
-菜鸟教程git教程(https://www.runoob.com/git/git-basic-operations.html)
-廖雪峰老师的git教程(https://www.liaoxuefeng.com/wiki/896043488029600)"/>
+<meta name="twitter:description" content="git配置相关  配置全局账户 git config &ndash;global user.name &ldquo;名称&rdquo;
+git config &ndash;global user.email &ldquo;邮箱&rdquo;
+   配置局部账户
+ git config &ndash;local user.name &ldquo;名称&rdquo;
+gir config &ndash;local user.email &ldquo;邮箱&rdquo;
+   查看配置
+ git config &ndash;global &ndash;list
+git config &ndash;local -list
+  git本地基本操作  本地变更添加到暂存区
+ git add &ndash;all
+git add 文件名1 文件名2 &hellip;
+   比较差异
+ git diff 文件名 (某文件工作区与暂存区差异)
+git diff &ndash;cache 文件名 (某文件暂存区与HEAD差异)
+git diff (工作区与暂存区差异)"/>
 
     <meta property="og:title" content="git基本操作" />
-<meta property="og:description" content="git add --all
-git add 文件名
-git commit -m “备注”
-git log
-git log –pretty=oneline
-git status
-git diff 文件名
-git reset --hard HEAD^
-git reset --hard HEAD~100
-git reset --hard 版本号
-git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销
-git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：
- 一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；
-  一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。
- git reset HEAD 可以把暂存区的修改撤销掉（unstage），重新放回工作区
-理解工作区与暂存区的区别？
-工作区：就是你在电脑上看到的目录，比如目录下testgit里的文件(.git隐藏目录版本库除外)。或者以后需要再新建的目录文件等等都属于工作区范畴。 版本库(Repository)：工作区有一个隐藏目录.git,这个不属于工作区，这是版本库。其中版本库里面存了很多东西，其中最重要的就是stage(暂存区)，还有Git为我们自动创建了第一个分支master,以及指向master的一个指针HEAD。
-我们前面说过使用Git提交文件到版本库有两步：
-第一步：是使用 git add 把文件添加进去，实际上就是把文件添加到暂存区。
-第二步：使用git commit提交更改，实际上就是把暂存区的所有内容提交到当前分支上。
-菜鸟教程git教程(https://www.runoob.com/git/git-basic-operations.html)
-廖雪峰老师的git教程(https://www.liaoxuefeng.com/wiki/896043488029600)" />
+<meta property="og:description" content="git配置相关  配置全局账户 git config &ndash;global user.name &ldquo;名称&rdquo;
+git config &ndash;global user.email &ldquo;邮箱&rdquo;
+   配置局部账户
+ git config &ndash;local user.name &ldquo;名称&rdquo;
+gir config &ndash;local user.email &ldquo;邮箱&rdquo;
+   查看配置
+ git config &ndash;global &ndash;list
+git config &ndash;local -list
+  git本地基本操作  本地变更添加到暂存区
+ git add &ndash;all
+git add 文件名1 文件名2 &hellip;
+   比较差异
+ git diff 文件名 (某文件工作区与暂存区差异)
+git diff &ndash;cache 文件名 (某文件暂存区与HEAD差异)
+git diff (工作区与暂存区差异)" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kindf.github.io/post/git_operation/" />
 <meta property="article:published_time" content="2019-12-10T22:39:34+08:00" />
@@ -106,17 +92,82 @@ git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有
         </div></div>
     </header>
     <div class="post-content">
-      <p>git add --all</p>
-<p>git add 文件名</p>
-<p>git commit -m “备注”</p>
-<p>git log</p>
-<p>git log –pretty=oneline</p>
-<p>git status</p>
-<p>git diff 文件名</p>
-<p>git reset --hard HEAD^</p>
-<p>git reset --hard HEAD~100</p>
-<p>git reset --hard 版本号</p>
-<p>git checkout -- 文件名 &ndash;把文件在工作区做的修改全部撤销</p>
+      <h4 id="git">git配置相关</h4>
+<blockquote>
+<p>配置全局账户<!-- raw HTML omitted --></p>
+<blockquote>
+<p>git config &ndash;global user.name &ldquo;名称&rdquo;<br>
+git config &ndash;global user.email &ldquo;邮箱&rdquo;</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>配置局部账户</p>
+<blockquote>
+<p>git config &ndash;local user.name &ldquo;名称&rdquo;<br>
+gir config &ndash;local user.email &ldquo;邮箱&rdquo;</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>查看配置</p>
+<blockquote>
+<p>git config &ndash;global &ndash;list<br>
+git config &ndash;local -list</p>
+</blockquote>
+</blockquote>
+<h4 id="git1">git本地基本操作</h4>
+<blockquote>
+<p>本地变更添加到暂存区</p>
+<blockquote>
+<p>git add &ndash;all<br>
+git add 文件名1 文件名2 &hellip;</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>比较差异</p>
+<blockquote>
+<p>git diff 文件名   (某文件工作区与暂存区差异)<br>
+git diff &ndash;cache 文件名   (某文件暂存区与HEAD差异)<br>
+git diff   (工作区与暂存区差异)<br>
+git diff &ndash;cache   (暂存区与HEAD所有差异)</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>回滚</p>
+<blockquote>
+<p>git checkout 文件名1 文件名2 &hellip;   (将工作区文件回滚到暂存区版本)<br>
+git reset 文件名1 文件名2 &hellip;   (将暂存区文件恢复至与HEAD一样)<br>
+git reset &ndash;hard   (将暂存区所有文件恢复至与HEAD一样)</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>查看日志</p>
+<blockquote>
+<p>git log  (显示该路径下的commit)<br>
+git log -n  (显示最近n个commit)<br>
+git log &ndash;online  (单行显示)<br>
+git log –pretty=oneline (单行显示)<br>
+git log 文件名  (涉及到该文件的所有commit)<br>
+git blame 文件名  (该文件各行修改对应commit及作者)<br>
+git log &ndash;online &ndash;graph &ndash;all  (用图示显示所有的分支历史)</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>分支与标签</p>
+<blockquote>
+<p>git branch 新分支 (基于当前分支创建新分支)</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>与远端交互</p>
+<blockquote>
+<p>git remote -v   (列出所有remote)<br>
+git remote add url地址  (增加remote)<br>
+git remote remove remote的名称  (删除remote)<br>
+git pull   (更新本地分支且merge到本地分支)<br>
+git push remote名称 分支名  (把本地分支 push 到远端)<br>
+git fetch remote  (把远端所有分支和标签的变更都拉到本地)</p>
+</blockquote>
+</blockquote>
 <p>git checkout -- 文件名:把文件在工作区的修改全部撤销，这里有两种情况：</p>
 <blockquote>
 <p>一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；</p>
