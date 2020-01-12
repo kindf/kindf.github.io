@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="kindf" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
+    <link rel="stylesheet" href="https:kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -25,7 +25,7 @@ int socket(int domin, int type, int protocol)参数说明:
 domin:套接字的协议族(PF_INET-ipv4协议族, PF_INET6-ipv6协议族) type:套接字的传输方式(SOCK_STREAM-面向连接的数据传输方式, SOCK_DGRAM-面向消息的数据传输方式) protocol:决定最终采用的协议(同一协议族中存在多个传输方式相同的协议,故需要该参数决定采用的协议),但大部分情况下可以通过前两个参数即可创建所需的套接字 满足PF_INET,SOCK_STREAM的协议只有IPPROTO_TCP协议(故可以传0) 满足PF_INET,SOCK_DGRAM的协议只有IPPROTO_UDP协议(故可以传0) 
 关于套接字缓冲区: 调用send接口实际上是将数据复制到发送缓冲区中,内核实际上是按照最大MSS大小从缓冲区发送数据的,发送的数据知道被对端确认才从缓冲区中删除 socket地址结构体:  struct sockaddr_in { sa_family_t sin_family; //地址族(AF_INET-ipv4使用的地址族,AF_INET6-ipv6使用的地址族) uint16_t sin_port; //16位TCP/UDP端口号(以网络字节序保存) struct in_addr sin_addr; //32位IP地址(以网络字节序保存) char sin_zero[8]; //不使用 }; struct in_addr { In_addr_t s_addr; //32位Ipv4地址 }; unsigned short htons(unsinged short); //用于端口号转换 unsigned short ntohs(unsinged short); //用于端口号转换 unsigned long htonl(unsigned long); //用于ip地址转换 unsigned long ntohl(usigned long); //用于ip地址转换   socket编程相关API  #include &ltsys/socket." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kindf.github.io/post/study_note_of_tcp_ip/" />
+<meta property="og:url" content="https:kindf.github.io/post/study_note_of_tcp_ip/" />
 <meta property="article:published_time" content="2019-12-16T22:31:01+08:00" />
 <meta property="article:modified_time" content="2019-12-16T22:31:01+08:00" />
 
@@ -33,7 +33,7 @@ domin:套接字的协议族(PF_INET-ipv4协议族, PF_INET6-ipv6协议族) type:
   </head>
   <body>
     <header class="app-header">
-      <a href="https://kindf.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
+      <a href="https:kindf.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
       <h1>恶意</h1>
       <p>学习笔记</p>
       <div class="app-header-social">
