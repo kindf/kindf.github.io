@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="kindf" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https:kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
+    <link rel="stylesheet" href="https://kindf.github.io/css/main.min.61bb32028587f24ca28522d8d197970c7ef33284e5fffb45a75fcbbb2dbc4dcb.css" />
 
     
     <meta name="twitter:card" content="summary"/>
@@ -21,7 +21,7 @@
 4.当等待队列被唤醒的时候,将调用ep_poll_callback()函数(把代表该文件描述符的epitem结构放置到eventpoll结构的rdllist队列中并唤醒进程)
     调用epoll_wait()函数开始监听文件   1.内核把当前进程设置为可中断睡眠状态
 2.然后把进程添加到eventpoll结构的等待队列中，最后调用schedule_timeout()让出CPU
-3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空
+3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空,不空时返回
   水平触发(LT)与边缘触发(ET)   边缘触发(ET)   1.句柄在发生读写事件时只会通知用户一次
 2.ET模式主要关注fd从不可用到可用或者可用到不可用的情况
 3.ET只支持非阻塞模式
@@ -44,7 +44,7 @@
 4.当等待队列被唤醒的时候,将调用ep_poll_callback()函数(把代表该文件描述符的epitem结构放置到eventpoll结构的rdllist队列中并唤醒进程)
     调用epoll_wait()函数开始监听文件   1.内核把当前进程设置为可中断睡眠状态
 2.然后把进程添加到eventpoll结构的等待队列中，最后调用schedule_timeout()让出CPU
-3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空
+3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空,不空时返回
   水平触发(LT)与边缘触发(ET)   边缘触发(ET)   1.句柄在发生读写事件时只会通知用户一次
 2.ET模式主要关注fd从不可用到可用或者可用到不可用的情况
 3.ET只支持非阻塞模式
@@ -57,7 +57,7 @@
 缺点：效率比ET低
   epoll相关API  struct epoll_event { __uint32_t events; epoll_data_t data: } typedef union epoll_data { void *ptr; inf fd; __uint32_t u32; __unit64_t u64; } epoll_data_t; #include &lt;sys/epoll." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https:kindf.github.io/post/epoll/" />
+<meta property="og:url" content="https://kindf.github.io/post/epoll/" />
 <meta property="article:published_time" content="2020-01-10T21:15:11+08:00" />
 <meta property="article:modified_time" content="2020-01-10T21:15:11+08:00" />
 
@@ -65,7 +65,7 @@
   </head>
   <body>
     <header class="app-header">
-      <a href="https:kindf.github.io"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
+      <a href="https://kindf.github.io/"><img class="app-header-avatar" src="/avatar.jpg" alt="kindf" /></a>
       <h1>恶意</h1>
       <p>学习笔记</p>
       <div class="app-header-social">
@@ -134,7 +134,7 @@
 </ul>
 <p>1.内核把当前进程设置为可中断睡眠状态<br>
 2.然后把进程添加到eventpoll结构的等待队列中，最后调用schedule_timeout()让出CPU<br>
-3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空</p>
+3.当进程被唤醒时,会判断eventpoll结构的rdllist队列是否为空,不空时返回</p>
 </blockquote>
 <blockquote>
 <h4 id="ltet">水平触发(LT)与边缘触发(ET)</h4>
