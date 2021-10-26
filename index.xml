@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>https://kindf/kindf.github.io/</link>
+    <link>https://kindf.github.io/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Oct 2021 23:02:25 +0800</lastBuildDate><atom:link href="https://kindf/kindf.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Oct 2021 23:02:25 +0800</lastBuildDate><atom:link href="https://kindf.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Redis持久化</title>
-      <link>https://kindf/kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+      <link>https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
       <pubDate>Tue, 26 Oct 2021 23:02:25 +0800</pubDate>
       
-      <guid>https://kindf/kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+      <guid>https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
       <description>AOF日志 1、AOF日志实现 ​	1）AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回
 ​	2）AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作）
 ​	3）用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍
