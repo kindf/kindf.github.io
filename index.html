@@ -1,84 +1,179 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head>
-  <link href="https://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.88.1" />
-
-  
+<html lang="en-us">
+  <head>
+	<meta name="generator" content="Hugo 0.88.1" />
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="kindf">
+  
+  
+  
+  
+  
+  <link rel="canonical" href="https://kindf.github.io/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           kindf
+       
+  </title>
+  <meta name="title" content="kindf">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
 
-  <title>My New Hugo Site</title>
-  <meta name="description" content="" />
 
   
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/hyde.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
-
-
+    <link href="https://kindf.github.io/index.xml" rel="alternate" type="application/rss+xml" title="kindf" />
+    <link href="https://kindf.github.io/index.xml" rel="feed" type="application/rss+xml" title="kindf" />
   
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="/favicon.png">
+  
 
-  
-  <link href="https://kindf.github.io/index.xml" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
-  
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "url": "https:\/\/kindf.github.io\/",
+    "name": "kindf",
+    "author": {
+        "@type": "Person",
+        "name": "kindf"
+    },
+    "description": "",
+}
+</script>
+ 
+
 </head>
 
-  <body class=" ">
-  <aside class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <a href="https://kindf.github.io/"><h1>My New Hugo Site</h1></a>
-      <p class="lead">
-      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
-      </p>
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
     </div>
-
-    <nav>
-      <ul class="sidebar-nav">
-        <li><a href="https://kindf.github.io/">Home</a> </li>
-        
-      </ul>
-    </nav>
-
-    <p>&copy; 2021. All rights reserved. </p>
-  </div>
-</aside>
-
-    <main class="content container">
-    <div class="posts">
-<article class="post">
-  <h1 class="post-title">
-    <a href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/">Redis持久化</a>
-  </h1>
-  <time datetime="2021-10-26T23:02:25&#43;0800" class="post-date">Tue, Oct 26, 2021</time>
-  AOF日志 1、AOF日志实现 ​	1）AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回
-​	2）AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作）
-​	3）用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍
- 2、三种回写策略 ​	1）Always，同步写回：每次执行写操作后立马同步将日志写回磁盘
-​	2）Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘
-​	3）No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机
- 3、三种回写策略的优劣    写回方式 写回时机 优点 缺点     Always 同步写回 可靠度高，数据基本不会丢失 每次写操作都要落盘，性能影响较大   Everysec 每秒写回 性能适中 宕机时丢失1s内的数据   No 系统控制写回 性能好 宕机会丢失较多数据     4、AOF重写机制 ​	1）主线程fork重写子进程，子进程将新的内容写到临时文件中
-​	2）重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失）
-​	3）子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞）
-​	4）最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾
-     内存快照 1、Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave ​	1）save：在主线程中执行，会导致阻塞
-​	2）bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置
-  
-  <div class="read-more-link">
-    <a href="/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/">Read More…</a>
-  </div>
-  
-</article>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+  	
+  	
+<div class="post-warp">
+	<div class="intro">
+    
+    
+    
+    <h2 class="description">
+       把一切 奉献给你所热爱的
+    </h2>
+    
+ 
 </div>
-    </main>
+	
+		<article class="post" itemscope itemscope="" itemtype="http://schema.org/Article">
+
+			<header class="post-header">
+				<h1 class="post-title" itemprop="name headline"><a href="https://kindf.github.io/post/">Posts</a></h1>
+			</header>
+			<div class="post-content">
+				 
+				   
+       			 
+
+       			
+			</div>
+			<div class="post-footer">
+				<div class="post-meta">
+                <span class="post-time">
+                <time datetime=2021-11-03 itemprop="datePublished">November 3, 2021</time>
+                </span>
+                in
+                
+        </div>
+				
+			</div>
+		</article>
+	
+
+	
+
+</div>
+
+  
+
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://kindf.github.io/">kindf</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
 
     
-      
-    
+    <script src="/js/vendor_main.min.js" async=""></script>
+
+
+
+     </div>
   </body>
 </html>

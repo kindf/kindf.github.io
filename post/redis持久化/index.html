@@ -1,71 +1,159 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head>
-  <link href="https://gmpg.org/xfn/11" rel="profile">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.88.1" />
-
-  
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Redis持久化 &middot; My New Hugo Site</title>
-  <meta name="description" content="" />
-
-  
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="https://kindf.github.io/css/hyde.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
-
-
-  
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-  <link rel="shortcut icon" href="/favicon.png">
-
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="kindf">
   
   
+  
+  
+  <link rel="next" href="https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" />
+  <link rel="canonical" href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Redis持久化 | kindf
+       
+  </title>
+  <meta name="title" content="Redis持久化 | kindf">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/kindf.github.io\/"
+    },
+    "articleSection" : "post",
+    "name" : "Redis持久化",
+    "headline" : "Redis持久化",
+    "description" : "  AOF日志   AOF日志实现  AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回 AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作） 用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍    三种回写策略  Always，同步写回：每次执行写操作后立马同步将日志写回磁盘 Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘 No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机    三种回写策略的优劣      写回方式 写回时机 优点 缺点     Always 同步写回 可靠度高，数据基本不会丢失 每次写操作都要落盘，性能影响较大   Everysec 每秒写回 性能适中 宕机时丢失1s内的数据   No 系统控制写回 性能好 宕机会丢失较多数据        AOF重写机制  主线程fork重写子进程，子进程将新的内容写到临时文件中 重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失） 子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞） 最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾         内存快照   Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave  save：在主线程中执行，会导致阻塞 bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置    快照原理（利用copy-on-write原理）  主线程fork⽣成bgsave⼦进程，两者共享同一物理内存，子线程将redis内存中的数据全量记录到磁盘文件中，该快照文件成为RDB文件 主线程对数据进行写操作时，会将该部分内存复制一份副本（写时复制），主线程可直接修改原来的数据而不用担心子进程的数据污染问题    快照优劣  优：可以快速恢复数据库（避免了AOF需要顺序，逐一执行命令带来的低效性能的问题） 劣：频繁的快照会造成性能的消耗，主要是将全量数据写入磁盘的消耗和主线程进行fork操作的消耗         总结  数据不能丢失时，内存快照和AOF的混合使⽤是⼀个很好的选择 如果允许分钟级别的数据丢失，可以只使⽤RDB 如果只⽤AOF，优先使⽤everysec的配置选项，因为它在可靠性和性能之间取了⼀个平衡     ",
+    "inLanguage" : "en-us",
+    "author" : "kindf",
+    "creator" : "kindf",
+    "publisher": "kindf",
+    "accountablePerson" : "kindf",
+    "copyrightHolder" : "kindf",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-10-26 23:02:25 \u002b0800 CST",
+    "dateModified" : "2021-10-26 23:02:25 \u002b0800 CST",
+    "url" : "https:\/\/kindf.github.io\/post\/redis%E6%8C%81%E4%B9%85%E5%8C%96\/",
+    "wordCount" : "45",
+    "keywords" : [  "kindf"]
+}
+</script>
+
 </head>
 
-  <body class=" ">
-  <aside class="sidebar">
-  <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-      <a href="https://kindf.github.io/"><h1>My New Hugo Site</h1></a>
-      <p class="lead">
-      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
-      </p>
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
     </div>
-
-    <nav>
-      <ul class="sidebar-nav">
-        <li><a href="https://kindf.github.io/">Home</a> </li>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Redis持久化</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://kindf.github.io/" rel="author">kindf</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-10-26 itemprop="datePublished">October 26, 2021</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
         
-      </ul>
-    </nav>
 
-    <p>&copy; 2021. All rights reserved. </p>
-  </div>
-</aside>
+        
 
-    <main class="content container">
-    <div class="post">
-  <h1>Redis持久化</h1>
-  <time datetime=2021-10-26T23:02:25&#43;0800 class="post-date">Tue, Oct 26, 2021</time>
-  <ul>
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <ul>
 <li>
-<h4 id="aof日志">AOF日志</h4>
-<h5 id="1aof日志实现">1、AOF日志实现</h5>
-<p>​	1）AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回</p>
-<p>​	2）AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作）</p>
-<p>​	3）用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍</p>
-<hr>
-<h5 id="2三种回写策略">2、三种回写策略</h5>
-<p>​	1）Always，同步写回：每次执行写操作后立马同步将日志写回磁盘</p>
-<p>​	2）Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘</p>
-<p>​	3）No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机</p>
-<hr>
-<h5 id="3三种回写策略的优劣">3、三种回写策略的优劣</h5>
+<h1 id="aof日志">AOF日志</h1>
+<ul>
+<li>
+<h2 id="aof日志实现">AOF日志实现</h2>
+<ul>
+<li>AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回</li>
+<li>AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作）</li>
+<li>用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍</li>
+</ul>
+</li>
+<li>
+<h2 id="三种回写策略">三种回写策略</h2>
+<ul>
+<li>Always，同步写回：每次执行写操作后立马同步将日志写回磁盘</li>
+<li>Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘</li>
+<li>No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机</li>
+</ul>
+</li>
+<li>
+<h2 id="三种回写策略的优劣">三种回写策略的优劣</h2>
+<ul>
+<li>
 <table>
 <thead>
 <tr>
@@ -96,49 +184,143 @@
 </tr>
 </tbody>
 </table>
-<hr>
-<h5 id="4aof重写机制">4、AOF重写机制</h5>
-<p>​	1）主线程fork重写子进程，子进程将新的内容写到临时文件中</p>
-<p>​	2）重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失）</p>
-<p>​	3）子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞）</p>
-<p>​	4）最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾</p>
+</li>
+</ul>
+</li>
+<li>
+<h2 id="aof重写机制">AOF重写机制</h2>
+<ul>
+<li>主线程fork重写子进程，子进程将新的内容写到临时文件中</li>
+<li>重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失）</li>
+<li>子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞）</li>
+<li>最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 <hr>
 <ul>
 <li>
-<h4 id="内存快照">内存快照</h4>
-<h5 id="1redis提供了两个命令来成rdb件分别是save和bgsave">1、Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave</h5>
-<p>​	1）save：在主线程中执行，会导致阻塞</p>
-<p>​	2）bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置</p>
-<hr>
-<h5 id="2快照原理利用copy-on-write原理">2、快照原理（利用copy-on-write原理）</h5>
-<p>​	1）主线程fork⽣成bgsave⼦进程，两者共享同一物理内存，子线程将redis内存中的数据全量记录到磁盘文件中，该快照文件成为RDB文件</p>
-<p>​	2）主线程对数据进行写操作时，会将该部分内存复制一份副本（写时复制），主线程可直接修改原来的数据而不用担心子进程的数据污染问题</p>
-<hr>
-<h5 id="3快照优劣">3、快照优劣</h5>
-<p>​	1）优：可以快速恢复数据库（避免了AOF需要顺序，逐一执行命令带来的低效性能的问题）</p>
-<p>​	2）劣：频繁的快照会造成性能的消耗，主要是将全量数据写入磁盘的消耗和主线程进行fork操作的消耗</p>
+<h1 id="内存快照">内存快照</h1>
+<ul>
+<li>
+<h2 id="redis提供了两个命令来成rdb件分别是save和bgsave">Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave</h2>
+<ul>
+<li>save：在主线程中执行，会导致阻塞</li>
+<li>bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置</li>
+</ul>
+</li>
+<li>
+<h2 id="快照原理利用copy-on-write原理">快照原理（利用copy-on-write原理）</h2>
+<ul>
+<li>主线程fork⽣成bgsave⼦进程，两者共享同一物理内存，子线程将redis内存中的数据全量记录到磁盘文件中，该快照文件成为RDB文件</li>
+<li>主线程对数据进行写操作时，会将该部分内存复制一份副本（写时复制），主线程可直接修改原来的数据而不用担心子进程的数据污染问题</li>
+</ul>
+</li>
+<li>
+<h2 id="快照优劣">快照优劣</h2>
+<ul>
+<li>优：可以快速恢复数据库（避免了AOF需要顺序，逐一执行命令带来的低效性能的问题）</li>
+<li>劣：频繁的快照会造成性能的消耗，主要是将全量数据写入磁盘的消耗和主线程进行fork操作的消耗</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 <hr>
 <ul>
 <li>
-<h4 id="总结">总结</h4>
-<h5 id="1数据不能丢失时内存快照和aof的混合使是个很好的选择">1、数据不能丢失时，内存快照和AOF的混合使⽤是⼀个很好的选择</h5>
-<h5 id="2如果允许分钟级别的数据丢失可以只使rdb">2、如果允许分钟级别的数据丢失，可以只使⽤RDB</h5>
-<h5 id="3如果只aof优先使everysec的配置选项因为它在可靠性和性能之间取了个平衡">3、如果只⽤AOF，优先使⽤everysec的配置选项，因为它在可靠性和性能之间取了⼀个平衡</h5>
+<h1 id="总结">总结</h1>
+<ul>
+<li>数据不能丢失时，内存快照和AOF的混合使⽤是⼀个很好的选择</li>
+<li>如果允许分钟级别的数据丢失，可以只使⽤RDB</li>
+<li>如果只⽤AOF，优先使⽤everysec的配置选项，因为它在可靠性和性能之间取了⼀个平衡</li>
+</ul>
 </li>
 </ul>
 <hr>
 
-</div>
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>kindf </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/>https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://kindf.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+         
+        
+        <a href="https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" class="next" rel="next" title="Redis主从库数据同步">Redis主从库数据同步&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://kindf.github.io/">kindf</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
 
 
-    </main>
+
+
+
+
+
+
+
+
+
 
     
-      
     
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
   </body>
 </html>

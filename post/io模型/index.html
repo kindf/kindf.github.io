@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="kindf">
+  
+  
+  
+  <link rel="prev" href="https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="next" href="https://kindf.github.io/post/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" />
+  <link rel="canonical" href="https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Io模型 | kindf
+       
+  </title>
+  <meta name="title" content="Io模型 | kindf">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/kindf.github.io\/"
+    },
+    "articleSection" : "post",
+    "name" : "Io模型",
+    "headline" : "Io模型",
+    "description" : "一、阻塞IO（blocking I\/O）  io两个阶段：  等待数据准备 将数据从内核拷贝到进程中    调用recvfrom后调用进程\/线程阻塞直到内核把数据准备好并把数据拷贝到用户内存后，内核返回结果，调用进程\/线程的阻塞状态解除，继续运行（阻塞io） 实际上，除非特别指定，几乎所有的IO接口 ( 包括socket接口 ) 都是阻塞型的  二、非阻塞IO（noblocking I\/O）  调用recvfrom后直接返回结果，若内核数据并没有准备好则返回error。 在非阻塞式IO中，用户进程其实是需要不断的主动询问kernel数据准备好了没有（这种方法会导致cpu占用率大幅上升） 与阻塞io的主要差异是调用接口后立即返回调用结果而不是阻塞调用方直到内核返回结果。 Linux下，可以通过设置socket使其变为non-blocking  三、多路复用IO（IO multiplexing）  select\/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select\/epoll会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程 当用户进程调用了select，process会阻塞在select上而不是单个io操作上，而同时，kernel会“监视”所有select负责的socket，当任何一个socket的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。  四、异步IO（Asynchronous I\/O）   用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。\n  真正的异步io（全过程并没有被阻塞，其他四种可能阻塞在数据准备阶段或者数据复制阶段）。\n  信号驱动IO（signal driven I\/O， SIGIO）  首先我们允许套接口进行信号驱动I\/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I\/O操作函数处理数据。当数据报准备好读取时，内核就为该进程产生一个SIGIO信号。我们随后既可以在信号处理函数中调用recvfrom读取数据报，并通知主循环数据已准备好待处理，也可以立即通知主循环，让它来读取数据报。无论如何处理SIGIO信号，这种模型的优势在于等待数据报到达(第一阶段)期间，进程可以继续执行，不被阻塞。免去了select的阻塞与轮询，当有活跃套接字时，由注册的handler处理。 阻塞在数据复制阶段。  ",
+    "inLanguage" : "en-us",
+    "author" : "kindf",
+    "creator" : "kindf",
+    "publisher": "kindf",
+    "accountablePerson" : "kindf",
+    "copyrightHolder" : "kindf",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-11-03 23:55:46 \u002b0800 CST",
+    "dateModified" : "2021-11-03 23:55:46 \u002b0800 CST",
+    "url" : "https:\/\/kindf.github.io\/post\/io%E6%A8%A1%E5%9E%8B\/",
+    "wordCount" : "32",
+    "keywords" : [  "kindf"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Io模型</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://kindf.github.io/" rel="author">kindf</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-11-03 itemprop="datePublished">November 3, 2021</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <h1 id="一阻塞ioblocking-io">一、阻塞IO（blocking I/O）</h1>
+<ul>
+<li>io两个阶段：
+<ul>
+<li>等待数据准备</li>
+<li>将数据从内核拷贝到进程中  <img src="https://s2.ax1x.com/2019/12/10/QDbLeH.png" alt="QDbLeH.png"></li>
+</ul>
+</li>
+<li>调用recvfrom后调用进程/线程阻塞直到内核把数据准备好并把数据拷贝到用户内存后，内核返回结果，调用进程/线程的阻塞状态解除，继续运行（阻塞io）</li>
+<li>实际上，除非特别指定，几乎所有的IO接口 ( 包括socket接口 ) 都是阻塞型的</li>
+</ul>
+<h1 id="二非阻塞ionoblocking-io">二、非阻塞IO（noblocking I/O）</h1>
+<ul>
+<li>调用recvfrom后直接返回结果，若内核数据并没有准备好则返回error。</li>
+<li>在非阻塞式IO中，用户进程其实是需要不断的主动询问kernel数据准备好了没有（这种方法会导致cpu占用率大幅上升）</li>
+<li>与阻塞io的主要差异是调用接口后立即返回调用结果而不是阻塞调用方直到内核返回结果。</li>
+<li>Linux下，可以通过设置socket使其变为non-blocking</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/12/10/QDjPCn.png" alt="QDjPCn.png"></p>
+<h1 id="三多路复用ioio-multiplexing">三、多路复用IO（IO multiplexing）</h1>
+<ul>
+<li>select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select/epoll会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程</li>
+<li>当用户进程调用了select，process会阻塞在select上而不是单个io操作上，而同时，kernel会“监视”所有select负责的socket，当任何一个socket的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/12/10/QDjkvV.png" alt="QDjkvV.png"></p>
+<h1 id="四异步ioasynchronous-io">四、异步IO（Asynchronous I/O）</h1>
+<ul>
+<li>
+<p>用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。</p>
+</li>
+<li>
+<p>真正的异步io（全过程并没有被阻塞，其他四种可能阻塞在数据准备阶段或者数据复制阶段）。</p>
+<p><img src="https://s2.ax1x.com/2019/12/10/QDji3q.png" alt="QDji3q.png"></p>
+</li>
+</ul>
+<h1 id="信号驱动iosignal-driven-io-sigio">信号驱动IO（signal driven I/O， SIGIO）</h1>
+<ul>
+<li>首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。当数据报准备好读取时，内核就为该进程产生一个SIGIO信号。我们随后既可以在信号处理函数中调用recvfrom读取数据报，并通知主循环数据已准备好待处理，也可以立即通知主循环，让它来读取数据报。无论如何处理SIGIO信号，这种模型的优势在于等待数据报到达(第一阶段)期间，进程可以继续执行，不被阻塞。免去了select的阻塞与轮询，当有活跃套接字时，由注册的handler处理。</li>
+<li>阻塞在数据复制阶段。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/12/10/QDjFg0.png" alt="QDjFg0.png"></p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>kindf </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/>https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://kindf.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="prev" rel="prev" title="Git基本操作"><i class="iconfont icon-left"></i>&nbsp;Git基本操作</a>
+         
+        
+        <a href="https://kindf.github.io/post/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" class="next" rel="next" title="进程间通讯">进程间通讯&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://kindf.github.io/">kindf</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>

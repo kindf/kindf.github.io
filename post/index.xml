@@ -1,30 +1,58 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on My New Hugo Site</title>
+    <title>Posts on kindf</title>
     <link>https://kindf.github.io/post/</link>
-    <description>Recent content in Posts on My New Hugo Site</description>
+    <description>Recent content in Posts on kindf</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Oct 2021 23:02:25 +0800</lastBuildDate><atom:link href="https://kindf.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 03 Nov 2021 23:56:42 +0800</lastBuildDate><atom:link href="https://kindf.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>进程间通讯</title>
+      <link>https://kindf.github.io/post/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</link>
+      <pubDate>Wed, 03 Nov 2021 23:56:42 +0800</pubDate>
+      
+      <guid>https://kindf.github.io/post/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</guid>
+      <description>  管道(内核管理的一个缓冲区)  匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通道从而形成单向通信的通道) 有名管道：通常用于无亲缘关系进程间的通信 四种读写情况  读端不读（fd[0]未关闭），写端一直写 ：直到管道写满数据后，再次write会导致阻塞，直到管道有空位置才写去数据并返回 写端不写（fd[1]未关闭），但是读端一直读（写端不关闭）：管道为空时阻塞读端，直到管道有数据时才读数据并返回（是否阻塞取决于写端计数器是否大于0&amp;hellip;.） 读端一直读，且fd[0]保持打开，而写端写了一部分数据不写了，并且关闭fd[1]：读取管道所有数据后返回0 读端读了一部分数据，不读了且关闭fd[0]，写端一直在写且f[1]还保持打开状态：一旦读端关闭而进程write时会接受信号SIGPIPE，通常导致进程异常终止   局限性  只支持单向数据流 缓冲区有限，管道只存在于主存中 所传送的是无格式字节流 效率低下（写数据需要读端读取后才返回） 需要注意同步问题？(自带有同步机制) 有名管道：长期存于系统中，使用不当容易出错      消息队列  实际上就是信息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。 信息的传递经过四次信息复制：写端-&amp;gt;内核 内核-&amp;gt;读端(消息队列中信息的复制需要额外消耗CPU的时间．不适宜于信息量大或操作频繁的场合) 消息队列克服了信号传递信息少,管道只能承载无格式字节流以及缓冲区大小受限等特点 可以实现任意进程间的通信，并通过系统调用函数来实现消息发送和接收之间的同步，无需考虑同步问题，方便    共享内存  内存共享机制：将进程的虚拟地址空间映射到相同的物理内存中 该做法会引起进程的内存竞争问题 共享内存是最快的IPC(进程间通信)方式    信号量  用于实现进程间的互斥同步问题    socket  不同主机间进程通信的主要方法    </description>
+    </item>
+    
+    <item>
+      <title>Io模型</title>
+      <link>https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Wed, 03 Nov 2021 23:55:46 +0800</pubDate>
+      
+      <guid>https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/</guid>
+      <description>一、阻塞IO（blocking I/O）  io两个阶段：  等待数据准备 将数据从内核拷贝到进程中    调用recvfrom后调用进程/线程阻塞直到内核把数据准备好并把数据拷贝到用户内存后，内核返回结果，调用进程/线程的阻塞状态解除，继续运行（阻塞io） 实际上，除非特别指定，几乎所有的IO接口 ( 包括socket接口 ) 都是阻塞型的  二、非阻塞IO（noblocking I/O）  调用recvfrom后直接返回结果，若内核数据并没有准备好则返回error。 在非阻塞式IO中，用户进程其实是需要不断的主动询问kernel数据准备好了没有（这种方法会导致cpu占用率大幅上升） 与阻塞io的主要差异是调用接口后立即返回调用结果而不是阻塞调用方直到内核返回结果。 Linux下，可以通过设置socket使其变为non-blocking  三、多路复用IO（IO multiplexing）  select/epoll的好处就在于单个process就可以同时处理多个网络连接的IO。它的基本原理就是select/epoll会不断的轮询所负责的所有socket，当某个socket有数据到达了，就通知用户进程 当用户进程调用了select，process会阻塞在select上而不是单个io操作上，而同时，kernel会“监视”所有select负责的socket，当任何一个socket的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。  四、异步IO（Asynchronous I/O）   用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。
+  真正的异步io（全过程并没有被阻塞，其他四种可能阻塞在数据准备阶段或者数据复制阶段）。
+  信号驱动IO（signal driven I/O， SIGIO）  首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。当数据报准备好读取时，内核就为该进程产生一个SIGIO信号。我们随后既可以在信号处理函数中调用recvfrom读取数据报，并通知主循环数据已准备好待处理，也可以立即通知主循环，让它来读取数据报。无论如何处理SIGIO信号，这种模型的优势在于等待数据报到达(第一阶段)期间，进程可以继续执行，不被阻塞。免去了select的阻塞与轮询，当有活跃套接字时，由注册的handler处理。 阻塞在数据复制阶段。  </description>
+    </item>
+    
+    <item>
+      <title>Git基本操作</title>
+      <link>https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Wed, 27 Oct 2021 22:21:54 +0800</pubDate>
+      
+      <guid>https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+      <description>Git配置   设置名称：  git config &amp;ndash;global user.name &amp;ldquo;名称&amp;rdquo;    设置邮箱：  git config &amp;ndash;global user.email &amp;ldquo;邮箱&amp;rdquo;    查看设置：  git config &amp;ndash;global &amp;ndash;list    Git分支操作   新建分支：  git branch 分支名 git checkout -b 分支名    切换分支：  git checkout 分支名    删除分支：  git branch -D 分支名    合并分支  git merge 分支名    Git基本工作流程</description>
+    </item>
+    
+    <item>
+      <title>Redis主从库数据同步</title>
+      <link>https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</link>
+      <pubDate>Tue, 26 Oct 2021 23:43:51 +0800</pubDate>
+      
+      <guid>https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</guid>
+      <description>  redis主从库模式   redis高可靠性  高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保证    读写分离  读操作：主库、从库都可以接收 写操作：⾸先到主库执⾏，然后，主库将写操作同步给从库    一致性问题  redis在主从数据库之间的复制是异步的，这意味着，主数据库执行完客户端请求的命令后会立即将命令发送给请求的客户端，并同步到从数据库，而不会等待从数据库接收到命令后再返回给客户端，因此该情况就会存在一定的数据不一致性风险，也就是redis不保证强一致性，而是通过从库策略追赶与主数据库的数据差异，以保障主从状态一致         全量复制（主从库第一次同步）   同步过程   从库通过replicaof命令，向主库发送psync命令（参数runID为主库id，offset为复制进度） 主库收到psync命令后，返回FULLRESYNC响应命令（参数为主库runID和主库⽬前的复制进度 offset），主从库开始同步 主库执⾏bgsave命令，⽣成RDB⽂件，接着将⽂件发给从库，从库接收文件后清空当前数据库，加载RDB文件 主库同步RDB文件并不会阻塞，会将期间的写请求记录在专⻔的replication buffer 主库完成RDB文件发送后，会把replication buffer中的修改操作发给从库，从库执行这些操作后就完成了数据同步    主从级联模式（“主-从-从”模式）   多个从库连接到同一主库，会导致主库压力增大（主要是fork子进程会阻塞主线程，传输RDB文件会占用主库网络带宽），此时可以使用主从级联模式    RDB文件是否落盘  Redis在全量复制时，既支持先生成RDB文件，再把RDB文件传给从库，也支持在主库上直接通过socket把数据传给从库，这称为无盘复制         基于长连接的命令传播 ​	一旦主从库完成全量复制，他们之间会维护一个网络连接，主库通过该连接把接受到的命令操作同步给从库，避免频繁建立连接的开销
+     增量复制   使用场景  网络断连或阻塞会导致主从库无法进行命令传播，而重新进行一次全量复制开销过大，此时主从库使用增量复制同步数据    同步过程  主从库断开后，主库会把期间收到的写操作命令写入replication buff和repl_backlog_buffer缓冲区中 repl_backlog_buffer是一个环形缓冲区，slave_repl_offset为从库下标，master_repl_offset为主库下标 主从库连接恢复后，从库首先发送psync命令，并把自己当前的slave_repl_offset发给主库 主库把处于master_repl_offset和slave_repl_offset之间的命令操作同步给从库完成同步    repl_backlog_buffer缓冲区  由于repl_back_log_buffer是一个环形缓冲区，当主从库读取速度差异过大有可能导致从库未读的操作被主库的新写操作覆盖，造成主从库数据不一致 缓冲空间⼤⼩ = 主库写⼊命令速度 * 操作⼤⼩ - 主从库间 ⽹络传输命令速度 * 操作⼤⼩，实际应用中考虑其他突发情况，通常把这个缓冲空间扩大一倍 可以考虑使用切片集群分担单个主库的请求压力 repl_backlog_buffer是所有从库共享的    断线重连后同步选择  由于repl_backlog_buffer存在覆盖的情况，重连后主库会根据从库的slave_repl_offset选择全量复制还是增量复制      </description>
+    </item>
+    
     <item>
       <title>Redis持久化</title>
       <link>https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
       <pubDate>Tue, 26 Oct 2021 23:02:25 +0800</pubDate>
       
       <guid>https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
-      <description>AOF日志 1、AOF日志实现 ​	1）AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回
-​	2）AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作）
-​	3）用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍
- 2、三种回写策略 ​	1）Always，同步写回：每次执行写操作后立马同步将日志写回磁盘
-​	2）Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘
-​	3）No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机
- 3、三种回写策略的优劣    写回方式 写回时机 优点 缺点     Always 同步写回 可靠度高，数据基本不会丢失 每次写操作都要落盘，性能影响较大   Everysec 每秒写回 性能适中 宕机时丢失1s内的数据   No 系统控制写回 性能好 宕机会丢失较多数据     4、AOF重写机制 ​	1）主线程fork重写子进程，子进程将新的内容写到临时文件中
-​	2）重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失）
-​	3）子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞）
-​	4）最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾
-     内存快照 1、Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave ​	1）save：在主线程中执行，会导致阻塞
-​	2）bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置</description>
+      <description>  AOF日志   AOF日志实现  AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回 AOF日志采用先执⾏命令再记⽇志的方式（为避免额外的检查开销，不阻塞当前写操作） 用AOF方法进行故障恢复时，需要逐一把操作日志都执行一遍    三种回写策略  Always，同步写回：每次执行写操作后立马同步将日志写回磁盘 Everysec，每秒写回：先把日志写到AOF文件的内存缓冲区，每隔一秒将缓冲区的内容写回磁盘 No，操作系统控制写回：先把日志写到AOF文件的内存缓冲区，有操作系统决定写回时机    三种回写策略的优劣      写回方式 写回时机 优点 缺点     Always 同步写回 可靠度高，数据基本不会丢失 每次写操作都要落盘，性能影响较大   Everysec 每秒写回 性能适中 宕机时丢失1s内的数据   No 系统控制写回 性能好 宕机会丢失较多数据        AOF重写机制  主线程fork重写子进程，子进程将新的内容写到临时文件中 重写并不阻塞主线程，主线程对于新的写入操作，一边将他们累积到内存缓冲中，一边追加到现有的AOF文件中（避免重写时宕机引起数据丢失） 子进程完成重写后发送信号给父进程，父进程接收信号后将内存缓存中的所有内容追加到新的AOF文件中（阻塞） 最后redis原子地用新文件替换旧文件，之后的命令将直接追加到新的AOF文件末尾         内存快照   Redis提供了两个命令来⽣成RDB⽂件，分别是save和bgsave  save：在主线程中执行，会导致阻塞 bgsave：创建子线程专门用于写入RDB文件，避免主线程阻塞，是redis默认配置    快照原理（利用copy-on-write原理）  主线程fork⽣成bgsave⼦进程，两者共享同一物理内存，子线程将redis内存中的数据全量记录到磁盘文件中，该快照文件成为RDB文件 主线程对数据进行写操作时，会将该部分内存复制一份副本（写时复制），主线程可直接修改原来的数据而不用担心子进程的数据污染问题    快照优劣  优：可以快速恢复数据库（避免了AOF需要顺序，逐一执行命令带来的低效性能的问题） 劣：频繁的快照会造成性能的消耗，主要是将全量数据写入磁盘的消耗和主线程进行fork操作的消耗         总结  数据不能丢失时，内存快照和AOF的混合使⽤是⼀个很好的选择 如果允许分钟级别的数据丢失，可以只使⽤RDB 如果只⽤AOF，优先使⽤everysec的配置选项，因为它在可靠性和性能之间取了⼀个平衡     </description>
     </item>
     
   </channel>

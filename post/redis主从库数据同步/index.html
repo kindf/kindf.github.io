@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="kindf">
+  
+  
+  
+  <link rel="prev" href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/" />
+  <link rel="next" href="https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="canonical" href="https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Redis主从库数据同步 | kindf
+       
+  </title>
+  <meta name="title" content="Redis主从库数据同步 | kindf">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/kindf.github.io\/"
+    },
+    "articleSection" : "post",
+    "name" : "Redis主从库数据同步",
+    "headline" : "Redis主从库数据同步",
+    "description" : "  redis主从库模式   redis高可靠性  高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保证    读写分离  读操作：主库、从库都可以接收 写操作：⾸先到主库执⾏，然后，主库将写操作同步给从库    一致性问题  redis在主从数据库之间的复制是异步的，这意味着，主数据库执行完客户端请求的命令后会立即将命令发送给请求的客户端，并同步到从数据库，而不会等待从数据库接收到命令后再返回给客户端，因此该情况就会存在一定的数据不一致性风险，也就是redis不保证强一致性，而是通过从库策略追赶与主数据库的数据差异，以保障主从状态一致         全量复制（主从库第一次同步）   同步过程   从库通过replicaof命令，向主库发送psync命令（参数runID为主库id，offset为复制进度） 主库收到psync命令后，返回FULLRESYNC响应命令（参数为主库runID和主库⽬前的复制进度 offset），主从库开始同步 主库执⾏bgsave命令，⽣成RDB⽂件，接着将⽂件发给从库，从库接收文件后清空当前数据库，加载RDB文件 主库同步RDB文件并不会阻塞，会将期间的写请求记录在专⻔的replication buffer 主库完成RDB文件发送后，会把replication buffer中的修改操作发给从库，从库执行这些操作后就完成了数据同步    主从级联模式（“主-从-从”模式）   多个从库连接到同一主库，会导致主库压力增大（主要是fork子进程会阻塞主线程，传输RDB文件会占用主库网络带宽），此时可以使用主从级联模式    RDB文件是否落盘  Redis在全量复制时，既支持先生成RDB文件，再把RDB文件传给从库，也支持在主库上直接通过socket把数据传给从库，这称为无盘复制         基于长连接的命令传播 ​\t一旦主从库完成全量复制，他们之间会维护一个网络连接，主库通过该连接把接受到的命令操作同步给从库，避免频繁建立连接的开销\n     增量复制   使用场景  网络断连或阻塞会导致主从库无法进行命令传播，而重新进行一次全量复制开销过大，此时主从库使用增量复制同步数据    同步过程  主从库断开后，主库会把期间收到的写操作命令写入replication buff和repl_backlog_buffer缓冲区中 repl_backlog_buffer是一个环形缓冲区，slave_repl_offset为从库下标，master_repl_offset为主库下标 主从库连接恢复后，从库首先发送psync命令，并把自己当前的slave_repl_offset发给主库 主库把处于master_repl_offset和slave_repl_offset之间的命令操作同步给从库完成同步    repl_backlog_buffer缓冲区  由于repl_back_log_buffer是一个环形缓冲区，当主从库读取速度差异过大有可能导致从库未读的操作被主库的新写操作覆盖，造成主从库数据不一致 缓冲空间⼤⼩ = 主库写⼊命令速度 * 操作⼤⼩ - 主从库间 ⽹络传输命令速度 * 操作⼤⼩，实际应用中考虑其他突发情况，通常把这个缓冲空间扩大一倍 可以考虑使用切片集群分担单个主库的请求压力 repl_backlog_buffer是所有从库共享的    断线重连后同步选择  由于repl_backlog_buffer存在覆盖的情况，重连后主库会根据从库的slave_repl_offset选择全量复制还是增量复制      ",
+    "inLanguage" : "en-us",
+    "author" : "kindf",
+    "creator" : "kindf",
+    "publisher": "kindf",
+    "accountablePerson" : "kindf",
+    "copyrightHolder" : "kindf",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-10-26 23:43:51 \u002b0800 CST",
+    "dateModified" : "2021-10-26 23:43:51 \u002b0800 CST",
+    "url" : "https:\/\/kindf.github.io\/post\/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5\/",
+    "wordCount" : "52",
+    "keywords" : [  "kindf"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Redis主从库数据同步</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://kindf.github.io/" rel="author">kindf</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-10-26 itemprop="datePublished">October 26, 2021</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <ul>
+<li>
+<h1 id="redis主从库模式">redis主从库模式</h1>
+<ul>
+<li>
+<h2 id="redis高可靠性">redis高可靠性</h2>
+<ul>
+<li>高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断</li>
+<li>前者使用AOF和RDB可以保证</li>
+<li>后者使用主从库模式保证</li>
+</ul>
+</li>
+<li>
+<h2 id="读写分离">读写分离</h2>
+<ul>
+<li>读操作：主库、从库都可以接收</li>
+<li>写操作：⾸先到主库执⾏，然后，主库将写操作同步给从库</li>
+</ul>
+</li>
+<li>
+<h2 id="一致性问题">一致性问题</h2>
+<ul>
+<li>redis在主从数据库之间的复制是异步的，这意味着，主数据库执行完客户端请求的命令后会立即将命令发送给请求的客户端，并同步到从数据库，而不会等待从数据库接收到命令后再返回给客户端，因此该情况就会存在一定的数据不一致性风险，也就是redis不保证强一致性，而是通过从库策略追赶与主数据库的数据差异，以保障主从状态一致</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<h1 id="全量复制主从库第一次同步">全量复制（主从库第一次同步）</h1>
+<ul>
+<li>
+<h2 id="同步过程">同步过程</h2>
+<ul>
+<li><a href="https://imgtu.com/i/5b3H3V"><img src="https://z3.ax1x.com/2021/10/27/5b3H3V.png" alt="5b3H3V.png"></a></li>
+<li>从库通过replicaof命令，向主库发送psync命令（参数runID为主库id，offset为复制进度）</li>
+<li>主库收到psync命令后，返回FULLRESYNC响应命令（参数为主库runID和主库⽬前的复制进度 offset），主从库开始同步</li>
+<li>主库执⾏bgsave命令，⽣成RDB⽂件，接着将⽂件发给从库，从库接收文件后清空当前数据库，加载RDB文件</li>
+<li>主库同步RDB文件并不会阻塞，会将期间的写请求记录在专⻔的replication buffer</li>
+<li>主库完成RDB文件发送后，会把replication buffer中的修改操作发给从库，从库执行这些操作后就完成了数据同步</li>
+</ul>
+</li>
+<li>
+<h2 id="主从级联模式主-从-从模式">主从级联模式（“主-从-从”模式）</h2>
+<ul>
+<li><a href="https://imgtu.com/i/5b3l79"><img src="https://z3.ax1x.com/2021/10/27/5b3l79.png" alt="5b3l79.png"></a></li>
+<li>多个从库连接到同一主库，会导致主库压力增大（主要是fork子进程会阻塞主线程，传输RDB文件会占用主库网络带宽），此时可以使用主从级联模式</li>
+</ul>
+</li>
+<li>
+<h2 id="rdb文件是否落盘">RDB文件是否落盘</h2>
+<ul>
+<li>Redis在全量复制时，既支持先生成RDB文件，再把RDB文件传给从库，也支持在主库上直接通过socket把数据传给从库，这称为无盘复制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<h1 id="基于长连接的命令传播">基于长连接的命令传播</h1>
+<p>​	一旦主从库完成全量复制，他们之间会维护一个网络连接，主库通过该连接把接受到的命令操作同步给从库，避免频繁建立连接的开销</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<h1 id="增量复制">增量复制</h1>
+<ul>
+<li>
+<h2 id="使用场景">使用场景</h2>
+<ul>
+<li>网络断连或阻塞会导致主从库无法进行命令传播，而重新进行一次全量复制开销过大，此时主从库使用增量复制同步数据</li>
+</ul>
+</li>
+<li>
+<h2 id="同步过程-1">同步过程</h2>
+<ul>
+<li>主从库断开后，主库会把期间收到的写操作命令写入replication buff和repl_backlog_buffer缓冲区中</li>
+<li>repl_backlog_buffer是一个环形缓冲区，slave_repl_offset为从库下标，master_repl_offset为主库下标</li>
+<li>主从库连接恢复后，从库首先发送psync命令，并把自己当前的slave_repl_offset发给主库</li>
+<li>主库把处于master_repl_offset和slave_repl_offset之间的命令操作同步给从库完成同步</li>
+</ul>
+</li>
+<li>
+<h2 id="repl_backlog_buffer缓冲区">repl_backlog_buffer缓冲区</h2>
+<ul>
+<li>由于repl_back_log_buffer是一个环形缓冲区，当主从库读取速度差异过大有可能导致从库未读的操作被主库的新写操作覆盖，造成主从库数据不一致</li>
+<li>缓冲空间⼤⼩ = 主库写⼊命令速度 * 操作⼤⼩ - 主从库间 ⽹络传输命令速度 * 操作⼤⼩，实际应用中考虑其他突发情况，通常把这个缓冲空间扩大一倍</li>
+<li>可以考虑使用切片集群分担单个主库的请求压力</li>
+<li>repl_backlog_buffer是所有从库共享的</li>
+</ul>
+</li>
+<li>
+<h2 id="断线重连后同步选择">断线重连后同步选择</h2>
+<ul>
+<li>由于repl_backlog_buffer存在覆盖的情况，重连后主库会根据从库的slave_repl_offset选择全量复制还是增量复制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>kindf </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/>https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://kindf.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="prev" rel="prev" title="Redis持久化"><i class="iconfont icon-left"></i>&nbsp;Redis持久化</a>
+         
+        
+        <a href="https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="next" rel="next" title="Git基本操作">Git基本操作&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://kindf.github.io/">kindf</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
