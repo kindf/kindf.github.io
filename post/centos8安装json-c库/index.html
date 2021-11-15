@@ -9,9 +9,9 @@
   
   
   
-  <link rel="prev" href="https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" />
-  
-  <link rel="canonical" href="https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="prev" href="https://kindf.github.io/post/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="next" href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/" />
+  <link rel="canonical" href="https://kindf.github.io/post/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -22,10 +22,10 @@
   <title>
        
        
-           Git基本操作 | kindf
+           CentOS8安装json C库 | kindf
        
   </title>
-  <meta name="title" content="Git基本操作 | kindf">
+  <meta name="title" content="CentOS8安装json C库 | kindf">
     
   
   <link rel="stylesheet" href="/font/iconfont.css">
@@ -44,9 +44,9 @@
          "@id": "https:\/\/kindf.github.io\/"
     },
     "articleSection" : "post",
-    "name" : "Git基本操作",
-    "headline" : "Git基本操作",
-    "description" : "Git配置   设置名称：  git config \u0026ndash;global user.name \u0026ldquo;名称\u0026rdquo;    设置邮箱：  git config \u0026ndash;global user.email \u0026ldquo;邮箱\u0026rdquo;    查看设置：  git config \u0026ndash;global \u0026ndash;list    Git分支操作   新建分支：  git branch 分支名 git checkout -b 分支名    切换分支：  git checkout 分支名    删除分支：  git branch -D 分支名    合并分支  git merge 分支名    Git基本工作流程",
+    "name" : "CentOS8安装json C库",
+    "headline" : "CentOS8安装json C库",
+    "description" : "Cenos8安装json-c库   先把文件从https:\/\/github.com\/json-c\/json-c克隆到本地目录\n  进入json-c目录分别执行cmake .\/，sudo make install（cmake要先下好）\n  安装完成后查看一下\/usr\/local\/include目录下是否有json-c目录（没有就是安装的时候没给权限导致复制失败）\n  查看\/usr\/local\/lib目录或者\/usr\/local\/lib64目录下是否有json-c的动态库文件（没有的话应该时安装有问题）\n  添加动态路的路径：sudo vim \/etc\/ld.so.conf添加\/usr\/local\/lib或者\/usr\/local\/lib64（根据上一步的目录）\n  用 sudo ldconfig更新文件\/etc\/ld.so.conf的修改生效\n  使用时要包含json.h头文件，编译时需要加上-ljson-c（我看网上的都是-json的，这个应该是要看动态库的名称确定吧）\n  安装时遇到的问题\n 没有安装cmake工具导致执行cmake命令时出现问题（cmake的版本也要确定一下） 使用-json-c编译导致编译失败 make install时没给权限导致install失败（安装时弹了一个error，没仔细看出来） 没有添加动态库的加载路径，导致执行文件时会报错找不到动态库文件，用ldd查看一下是libjson-c.so.5文件没找到，加了路径记得要sudo ldconfig更新一下不然还是不生效的    ",
     "inLanguage" : "en-us",
     "author" : "kindf",
     "creator" : "kindf",
@@ -54,10 +54,10 @@
     "accountablePerson" : "kindf",
     "copyrightHolder" : "kindf",
     "copyrightYear" : "2021",
-    "datePublished": "2021-10-27 22:21:54 \u002b0800 CST",
-    "dateModified" : "2021-10-27 22:21:54 \u002b0800 CST",
-    "url" : "https:\/\/kindf.github.io\/post\/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C\/",
-    "wordCount" : "92",
+    "datePublished": "2021-01-26 23:02:34 \u002b0800 CST",
+    "dateModified" : "2021-01-26 23:02:34 \u002b0800 CST",
+    "url" : "https:\/\/kindf.github.io\/post\/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93\/",
+    "wordCount" : "22",
     "keywords" : [  "kindf"]
 }
 </script>
@@ -104,11 +104,11 @@
       		
 <article class="post-warp" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">Git基本操作</h1>
+        <h1 class="post-title" itemprop="name headline">CentOS8安装json C库</h1>
         <div class="post-meta">
                 Written by <a itemprop="name" href="https://kindf.github.io/" rel="author">kindf</a> with ♥ 
                 <span class="post-time">
-                on <time datetime=2021-10-27 itemprop="datePublished">October 27, 2021</time>
+                on <time datetime=2021-01-26 itemprop="datePublished">January 26, 2021</time>
                 </span>
                 in
                 
@@ -117,8 +117,6 @@
     <div class="post-content">
         
 
-        
-            
         
 
         
@@ -132,124 +130,36 @@
           
           
 
-          <h1 id="git配置">Git配置</h1>
+          <h4 id="cenos8安装json-c库">Cenos8安装json-c库</h4>
 <ul>
 <li>
-<h4 id="设置名称">设置名称：</h4>
-<ul>
-<li>git config &ndash;global user.name &ldquo;名称&rdquo;</li>
-</ul>
+<p>先把文件从https://github.com/json-c/json-c克隆到本地目录</p>
 </li>
 <li>
-<h4 id="设置邮箱">设置邮箱：</h4>
-<ul>
-<li>git config &ndash;global user.email &ldquo;邮箱&rdquo;</li>
-</ul>
+<p>进入json-c目录分别执行cmake ./，sudo make install（cmake要先下好）</p>
 </li>
 <li>
-<h4 id="查看设置">查看设置：</h4>
-<ul>
-<li>git config &ndash;global &ndash;list</li>
-</ul>
-</li>
-</ul>
-<h1 id="git分支操作">Git分支操作</h1>
-<ul>
-<li>
-<h4 id="新建分支">新建分支：</h4>
-<ul>
-<li>git branch  分支名</li>
-<li>git checkout -b 分支名</li>
-</ul>
+<p>安装完成后查看一下/usr/local/include目录下是否有json-c目录（没有就是安装的时候没给权限导致复制失败）</p>
 </li>
 <li>
-<h4 id="切换分支">切换分支：</h4>
-<ul>
-<li>git checkout 分支名</li>
-</ul>
+<p>查看/usr/local/lib目录或者/usr/local/lib64目录下是否有json-c的动态库文件（没有的话应该时安装有问题）</p>
 </li>
 <li>
-<h4 id="删除分支">删除分支：</h4>
-<ul>
-<li>git branch -D 分支名</li>
-</ul>
+<p>添加动态路的路径：sudo vim /etc/ld.so.conf添加/usr/local/lib或者/usr/local/lib64（根据上一步的目录）</p>
 </li>
 <li>
-<h4 id="合并分支">合并分支</h4>
-<ul>
-<li>git merge 分支名</li>
-</ul>
-</li>
-</ul>
-<h1 id="git基本工作流程">Git基本工作流程</h1>
-<ul>
-<li>
-<p><a href="https://imgtu.com/i/5b8uCt"><img src="https://z3.ax1x.com/2021/10/27/5b8uCt.png" alt="5b8uCt.png"></a></p>
+<p>用 sudo ldconfig更新文件/etc/ld.so.conf的修改生效</p>
 </li>
 <li>
-<h4 id="添加文件到暂存区staging-area">添加文件到暂存区(staging area)：</h4>
-<ul>
-<li>git add 文件名</li>
-</ul>
+<p>使用时要包含json.h头文件，编译时需要加上-ljson-c（我看网上的都是-json的，这个应该是要看动态库的名称确定吧）</p>
 </li>
 <li>
-<h4 id="将暂存区文件添加到仓库local-repository中">将暂存区文件添加到仓库(local repository)中：</h4>
+<p>安装时遇到的问题</p>
 <ul>
-<li>git commit -m &ldquo;提交信息&rdquo;</li>
-</ul>
-</li>
-<li>
-<h4 id="上传远程代码remote-repository并合并">上传远程代码(remote repository)并合并：</h4>
-<ul>
-<li>git push -u origin 分支名</li>
-</ul>
-</li>
-<li>
-<h4 id="下载远程代码并合并">下载远程代码并合并</h4>
-<ul>
-<li>git pull</li>
-</ul>
-</li>
-</ul>
-<h1 id="git暂存区文件操作">Git暂存区文件操作</h1>
-<ul>
-<li>
-<h4 id="使用暂存区指定文件覆盖工作区对应文件">使用暂存区指定文件覆盖工作区对应文件：</h4>
-<ul>
-<li>git checkout 文件名</li>
-</ul>
-</li>
-<li>
-<h4 id="删除暂存区文件工作区不做改变">删除暂存区文件（工作区不做改变）：</h4>
-<ul>
-<li>git rm &ndash;cached 文件名</li>
-</ul>
-</li>
-<li>
-<h4 id="回滚暂存区对应文件到当前版本">回滚暂存区对应文件到当前版本：</h4>
-<ul>
-<li>git reset HEAD 文件名</li>
-</ul>
-</li>
-</ul>
-<h1 id="git远端交互">Git远端交互</h1>
-<ul>
-<li>
-<h4 id="列出所有remote">列出所有remote：</h4>
-<ul>
-<li>git remote -v</li>
-</ul>
-</li>
-<li>
-<h4 id="添加远端">添加远端：</h4>
-<ul>
-<li>git remote add xxx</li>
-</ul>
-</li>
-<li>
-<h4 id="删除远端关联">删除远端关联：</h4>
-<ul>
-<li>git remote remove xxx</li>
+<li>没有安装cmake工具导致执行cmake命令时出现问题（cmake的版本也要确定一下）</li>
+<li>使用-json-c编译导致编译失败</li>
+<li>make install时没给权限导致install失败（安装时弹了一个error，没仔细看出来）</li>
+<li>没有添加动态库的加载路径，导致执行文件时会报错找不到动态库文件，用ldd查看一下是libjson-c.so.5文件没找到，加了路径记得要sudo ldconfig更新一下不然还是不生效的</li>
 </ul>
 </li>
 </ul>
@@ -267,7 +177,7 @@
              
             <p class="copyright-item">
                     <span>Link:</span>
-                    <a href=https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/>https://kindf.github.io/post/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</span>
+                    <a href=https://kindf.github.io/post/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/>https://kindf.github.io/post/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</span>
             </p>
             
             
@@ -284,8 +194,10 @@
 
     <div class="post-nav">
         
-        <a href="https://kindf.github.io/post/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" class="prev" rel="prev" title="Redis主从库数据同步"><i class="iconfont icon-left"></i>&nbsp;Redis主从库数据同步</a>
+        <a href="https://kindf.github.io/post/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="prev" rel="prev" title="GDB基本操作"><i class="iconfont icon-left"></i>&nbsp;GDB基本操作</a>
          
+        
+        <a href="https://kindf.github.io/post/redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="next" rel="next" title="Redis持久化">Redis持久化&nbsp;<i class="iconfont icon-right"></i></a>
         
     </div>
 
@@ -327,9 +239,8 @@
 
 
     
-     <link href="//lib.baomitu.com/lightgallery/1.6.11/css/lightgallery.min.css" rel="stylesheet">  
-      
-     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
     
   
 

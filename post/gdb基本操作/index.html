@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  <meta name="author" content="kindf">
+  
+  
+  
+  <link rel="prev" href="https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/" />
+  <link rel="next" href="https://kindf.github.io/post/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/" />
+  <link rel="canonical" href="https://kindf.github.io/post/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           GDB基本操作 | kindf
+       
+  </title>
+  <meta name="title" content="GDB基本操作 | kindf">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+
+
+  
+  
+ 
+
+<script type="application/ld+json">
+ "@context" : "http://schema.org",
+    "@type" : "BlogPosting",
+    "mainEntityOfPage": {
+         "@type": "WebPage",
+         "@id": "https:\/\/kindf.github.io\/"
+    },
+    "articleSection" : "post",
+    "name" : "GDB基本操作",
+    "headline" : "GDB基本操作",
+    "description" : "   命令 含义\/用法     start 开始调试,停在第一行代码处 (gdb) start   l(list) 查看源代码 (gdb) l \u0026lt;number\/function\u0026gt;   b(breakpoint) 设置断点 (gdb) b \u0026lt;行号\/函数名\u0026gt;b \u0026hellip; if i == 3：条件断点   info info breakpoints：显示所有断点 info stack：查看堆栈信息 info args：查看当前参数值 info frame：输出栈帧的使用情况 info locals：查看局部变量   s(step) 执行一行源程序代码，如果此行代码中有函数调用，则进入该函数 (gdb) s   n(next) 执行一行源程序代码，此行代码中的函数调用也一并执行 (gdb) n   r(run) 运行被调试的程序 (gdb) r   c(continue) 继续执行被调试程序，直至下一个断点或程序结束 (gdb) c   finish 函数结束   p(print) 显示指定变量的值 (gdb) p \u0026lt;变量名\u0026gt;   set args name=v 可指定运行时参数。(gdb) set args 10 20   show args 查看运行时参数   q(quit) 退出GDB调试环境 (gdb) q   bt(backtrack) 查看函数堆栈 (gdb) bt   f(frame) 切换当前栈 (gdb) f \u0026lt;栈序号\u0026gt;   u(until) 结束当前循环 (gdb) until   set variable 给变量赋值   jump 在源代码的另一段开始运行   delete 删除断点 (gdb) delete \u0026lt;断点号\u0026gt;   watch 变量变化时暂停运行   awatch 变量被访问、改变是暂停执行   rwatch 变量被访问时暂停执行   disp(display) 跟踪查看某个变量,每次停下来都显示它的值   k(kill) 终止正在调试的程序    ",
+    "inLanguage" : "en-us",
+    "author" : "kindf",
+    "creator" : "kindf",
+    "publisher": "kindf",
+    "accountablePerson" : "kindf",
+    "copyrightHolder" : "kindf",
+    "copyrightYear" : "2021",
+    "datePublished": "2021-01-15 22:29:14 \u002b0800 CST",
+    "dateModified" : "2021-01-15 22:29:14 \u002b0800 CST",
+    "url" : "https:\/\/kindf.github.io\/post\/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C\/",
+    "wordCount" : "103",
+    "keywords" : [  "kindf"]
+}
+</script>
+
+</head>
+
+  
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-xihuan"></i></a>&nbsp;<a href="https://kindf.github.io/">kindf</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/about/" title="">About</a>
+                
+        </div>
+    </div>
+</nav>
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">GDB基本操作</h1>
+        <div class="post-meta">
+                Written by <a itemprop="name" href="https://kindf.github.io/" rel="author">kindf</a> with ♥ 
+                <span class="post-time">
+                on <time datetime=2021-01-15 itemprop="datePublished">January 15, 2021</time>
+                </span>
+                in
+                
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          <table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义/用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start</td>
+<td>开始调试,停在第一行代码处 (gdb) start</td>
+</tr>
+<tr>
+<td>l(list)</td>
+<td>查看源代码  (gdb) l &lt;number/function&gt;</td>
+</tr>
+<tr>
+<td>b(breakpoint)</td>
+<td>设置断点 (gdb) b &lt;行号/函数名&gt;<!-- raw HTML omitted -->b &hellip; if i == 3：条件断点</td>
+</tr>
+<tr>
+<td>info</td>
+<td>info breakpoints：显示所有断点 info stack：查看堆栈信息 info args：查看当前参数值 info frame：输出栈帧的使用情况 info locals：查看局部变量</td>
+</tr>
+<tr>
+<td>s(step)</td>
+<td>执行一行源程序代码，如果此行代码中有函数调用，则进入该函数 (gdb) s</td>
+</tr>
+<tr>
+<td>n(next)</td>
+<td>执行一行源程序代码，此行代码中的函数调用也一并执行 (gdb) n</td>
+</tr>
+<tr>
+<td>r(run)</td>
+<td>运行被调试的程序 (gdb) r</td>
+</tr>
+<tr>
+<td>c(continue)</td>
+<td>继续执行被调试程序，直至下一个断点或程序结束 (gdb) c</td>
+</tr>
+<tr>
+<td>finish</td>
+<td>函数结束</td>
+</tr>
+<tr>
+<td>p(print)</td>
+<td>显示指定变量的值 (gdb) p &lt;变量名&gt;</td>
+</tr>
+<tr>
+<td>set args name=v</td>
+<td>可指定运行时参数。(gdb) set args 10 20</td>
+</tr>
+<tr>
+<td>show args</td>
+<td>查看运行时参数</td>
+</tr>
+<tr>
+<td>q(quit)</td>
+<td>退出GDB调试环境 (gdb) q</td>
+</tr>
+<tr>
+<td>bt(backtrack)</td>
+<td>查看函数堆栈 (gdb) bt</td>
+</tr>
+<tr>
+<td>f(frame)</td>
+<td>切换当前栈 (gdb) f &lt;栈序号&gt;</td>
+</tr>
+<tr>
+<td>u(until)</td>
+<td>结束当前循环 (gdb) until</td>
+</tr>
+<tr>
+<td>set variable</td>
+<td>给变量赋值</td>
+</tr>
+<tr>
+<td>jump</td>
+<td>在源代码的另一段开始运行</td>
+</tr>
+<tr>
+<td>delete</td>
+<td>删除断点 (gdb) delete &lt;断点号&gt;</td>
+</tr>
+<tr>
+<td>watch</td>
+<td>变量变化时暂停运行</td>
+</tr>
+<tr>
+<td>awatch</td>
+<td>变量被访问、改变是暂停执行</td>
+</tr>
+<tr>
+<td>rwatch</td>
+<td>变量被访问时暂停执行</td>
+</tr>
+<tr>
+<td>disp(display)</td>
+<td>跟踪查看某个变量,每次停下来都显示它的值</td>
+</tr>
+<tr>
+<td>k(kill)</td>
+<td>终止正在调试的程序</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>kindf </span>
+                </p>
+            
+           
+             
+            <p class="copyright-item">
+                    <span>Link:</span>
+                    <a href=https://kindf.github.io/post/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/>https://kindf.github.io/post/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</span>
+            </p>
+            
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">back</a></span> · 
+                <span><a href="https://kindf.github.io/">home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+        
+        <a href="https://kindf.github.io/post/io%E6%A8%A1%E5%9E%8B/" class="prev" rel="prev" title="Io模型"><i class="iconfont icon-left"></i>&nbsp;Io模型</a>
+         
+        
+        <a href="https://kindf.github.io/post/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/" class="next" rel="next" title="CentOS8安装json C库">CentOS8安装json C库&nbsp;<i class="iconfont icon-right"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+                 
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2018 - 2021</span>
+        
+        <span class="with-love">
+    	 <i class="iconfont icon-love"></i> 
+         </span>
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://kindf.github.io/">kindf</a> | </span> 
+         
+
+         
+		  <span>Powered by <a href="https://gohugo.io/" target="_blank" rel="external nofollow">Hugo</a> & <a href="https://github.com/liuzc/leaveit" target="_blank" rel="external nofollow">LeaveIt</a></span> 
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="/js/vendor_no_gallery.min.js" async=""></script>
+    
+  
+
+
+
+     </div>
+  </body>
+</html>
