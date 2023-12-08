@@ -1,25 +1,25 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>skynet相关 - 分类 - kindf</title>
-        <link>http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/</link>
+        <link>https://kindf.github.io/categories/skynet%E7%9B%B8%E5%85%B3/</link>
         <description>skynet相关 - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="https://kindf.github.io/categories/skynet%E7%9B%B8%E5%85%B3/" rel="self" type="application/rss+xml" /><item>
     <title>skynet的定时器</title>
-    <link>http://example.org/posts/skynet/skynet_timer/</link>
+    <link>https://kindf.github.io/posts/skynet/skynet_timer/</link>
     <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_timer/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_timer/</guid>
     <description><![CDATA[主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;]]></description>
 </item><item>
     <title>skynet的网络</title>
-    <link>http://example.org/posts/skynet/skynet_net/</link>
+    <link>https://kindf.github.io/posts/skynet/skynet_net/</link>
     <pubDate>Wed, 01 Nov 2023 16:56:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_net/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_net/</guid>
     <description><![CDATA[skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk]]></description>
 </item><item>
     <title>skynet的callback</title>
-    <link>http://example.org/posts/skynet/skynet_cb/</link>
+    <link>https://kindf.github.io/posts/skynet/skynet_cb/</link>
     <pubDate>Tue, 19 Sep 2023 16:44:37 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_cb/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_cb/</guid>
     <description><![CDATA[skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca]]></description>
 </item></channel>
 </rss>

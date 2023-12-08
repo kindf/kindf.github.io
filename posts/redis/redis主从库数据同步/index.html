@@ -10,7 +10,7 @@
     <title>Redis主从库数据同步 - kindf</title><meta name="Description" content=""><meta property="og:title" content="Redis主从库数据同步" />
 <meta property="og:description" content="redis主从库模式 redis高可靠性 高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-08-10T23:43:51+08:00" />
 <meta property="article:modified_time" content="2021-08-10T23:43:51+08:00" />
 
@@ -21,7 +21,7 @@
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" /><link rel="prev" href="http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/" /><link rel="next" href="http://example.org/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/" /><link rel="prev" href="https://kindf.github.io/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/" /><link rel="next" href="https://kindf.github.io/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
@@ -32,9 +32,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/example.org\/posts\/redis\/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5\/"
+            "@id": "https:\/\/kindf.github.io\/posts\/redis\/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5\/"
         },"genre": "posts","wordcount":  1400 ,
-        "url": "http:\/\/example.org\/posts\/redis\/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5\/","datePublished": "2021-08-10T23:43:51+08:00","dateModified": "2021-08-10T23:43:51+08:00","publisher": {
+        "url": "https:\/\/kindf.github.io\/posts\/redis\/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5\/","datePublished": "2021-08-10T23:43:51+08:00","dateModified": "2021-08-10T23:43:51+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
                         "@type": "Person",
@@ -115,7 +115,7 @@
 <main class="main">
             <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Redis主从库数据同步</h1><div class="post-meta">
             <div class="post-meta-line">
-                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://kindf.github.io/authors/kindf'>kindf</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/redis/"><i class="far fa-folder fa-fw"></i>redis</a></span></div>
             <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-08-10">2021-08-10</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1400 字&nbsp;</div>
         </div><div class="content" id="content"><ul>
