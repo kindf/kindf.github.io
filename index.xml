@@ -1,21 +1,9 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>kindf on kindf</title>
-    <link>https://kindf.github.io/</link>
-    <description>Recent content in kindf on kindf</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 27 Oct 2021 22:21:54 +0800</lastBuildDate>
-    <atom:link href="/" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Posts</title>
-      <link>https://kindf.github.io/post/</link>
-      <pubDate>Wed, 27 Oct 2021 22:21:54 +0800</pubDate>
-      
-      <guid>https://kindf.github.io/post/</guid>
-      <description></description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>kindf</title>
+        <link>http://example.org/</link>
+        <description>kindf</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language>
+            <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+        </channel>
 </rss>
