@@ -3,5 +3,26 @@
         <title>Categories - 分类 - kindf</title>
         <link>http://example.org/categories/</link>
         <description>Categories - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><atom:link href="http://example.org/categories/" rel="self" type="application/rss+xml" /></channel>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/" rel="self" type="application/rss+xml" /><item>
+    <title>skynet相关</title>
+    <link>http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/</link>
+    <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
+        <name>作者</name>
+    </author><guid>http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>其他</title>
+    <link>http://example.org/categories/%E5%85%B6%E4%BB%96/</link>
+    <pubDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</pubDate><author>
+        <name>作者</name>
+    </author><guid>http://example.org/categories/%E5%85%B6%E4%BB%96/</guid>
+    <description><![CDATA[]]></description>
+</item><item>
+    <title>redis</title>
+    <link>http://example.org/categories/redis/</link>
+    <pubDate>Tue, 10 Aug 2021 23:43:51 &#43;0800</pubDate><author>
+        <name>作者</name>
+    </author><guid>http://example.org/categories/redis/</guid>
+    <description><![CDATA[]]></description>
+</item></channel>
 </rss>

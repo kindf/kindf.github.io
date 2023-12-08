@@ -111,28 +111,28 @@
         alt="/images/avatar.jpg"
         title="/images/avatar.jpg" height="100"   width="100" ></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/kindf" title="GitHub" target="_blank" rel="noopener noreferrer me"><span class="fab fa-github-alt fa-fw"></span></a><a href="mailto:1304298803@qq.com" title="Email" rel=" me"><span class="far fa-envelope fa-fw"></span></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_timer/">skynet的定时器</a>
+        <a href="/posts/other/elf%E6%96%87%E4%BB%B6/">ELF文件</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-11-14">2023-11-14</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_timer/">阅读全文</a></div>
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-11-15">2021-11-15</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div><div class="content">段表 保存ELF文件各段的基本属性的结构，记录包括段名，段长度，在文件中的偏移量以及读写权限和段的其他属性 代码段 程序源代码编译后的机器指令存放</div><div class="post-footer">
+        <a href="/posts/other/elf%E6%96%87%E4%BB%B6/">阅读全文</a></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_net/">skynet的网络</a>
+        <a href="/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">Git基本操作</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-11-01">2023-11-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_net/">阅读全文</a></div>
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-10-27">2021-10-27</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div><div class="content">Git配置 设置名称： git config &ndash;global user.name &ldquo;名称&rdquo; 设置邮箱： git config &ndash;global user.email &ldquo;邮箱&rdquo; 查看设置： git config &ndash;global &ndash;list Git分支操</div><div class="post-footer">
+        <a href="/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">阅读全文</a></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_cb/">skynet的callback</a>
+        <a href="/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/">Redis主从库数据同步</a>
     </h1><div class="post-meta">
         <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-09-19">2023-09-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_cb/">阅读全文</a></div>
-</article><ul class="pagination"><li class="page-item active">
+        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2021-08-10">2021-08-10</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/redis/"><i class="far fa-folder fa-fw"></i>redis</a></span></div><div class="content">redis主从库模式 redis高可靠性 高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保</div><div class="post-footer">
+        <a href="/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/">阅读全文</a></div>
+</article><ul class="pagination"><li class="page-item ">
                     <span class="page-link">
                         <a href="/">1</a>
                     </span>
-                </li><li class="page-item ">
+                </li><li class="page-item active">
                     <span class="page-link">
                         <a href="/page/2/">2</a>
                     </span>

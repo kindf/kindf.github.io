@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>skynet的定时器 - kindf</title><meta name="Description" content=""><meta property="og:title" content="skynet的定时器" />
+<meta property="og:description" content="主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/skynet/skynet_timer/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-14T10:45:32+08:00" />
+<meta property="article:modified_time" content="2023-11-14T10:45:32+08:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="skynet的定时器"/>
+<meta name="twitter:description" content="主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;"/>
+<meta name="application-name" content="kindf">
+<meta name="apple-mobile-web-app-title" content="kindf">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/skynet/skynet_timer/" /><link rel="prev" href="http://example.org/posts/skynet/skynet_net/" />
+<link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "skynet的定时器",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/skynet\/skynet_timer\/"
+        },"genre": "posts","wordcount":  2701 ,
+        "url": "http:\/\/example.org\/posts\/skynet\/skynet_timer\/","datePublished": "2023-11-14T10:45:32+08:00","dateModified": "2023-11-14T10:45:32+08:00","publisher": {
+            "@type": "Organization",
+            "name": "作者"},"authors": [{
+                        "@type": "Person",
+                        "name": "kindf"                    
+                    }],"description": ""
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark'); window.theme = theme;   window.isDark = window.theme !== 'light' }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('' === 'light' || '' === 'dark' || '' === 'black') setTheme(''), saveTheme(''); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="kindf">首页</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 博客 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="kindf">首页</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">博客</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">skynet的定时器</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-14">2023-11-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2701 字&nbsp;</div>
+        </div><div class="content" id="content"><h4 id="主要结构" class="headerLink">
+    <a href="#%e4%b8%bb%e8%a6%81%e7%bb%93%e6%9e%84" class="header-mark"></a>主要结构</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">   <span class="mi">17</span> <span class="err">#</span><span class="n">define</span> <span class="n">TIME_NEAR_SHIFT</span> <span class="mi">8</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">18</span> <span class="err">#</span><span class="n">define</span> <span class="nf">TIME_NEAR</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">TIME_NEAR_SHIFT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">19</span> <span class="err">#</span><span class="n">define</span> <span class="n">TIME_LEVEL_SHIFT</span> <span class="mi">6</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">20</span> <span class="err">#</span><span class="n">define</span> <span class="nf">TIME_LEVEL</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">TIME_LEVEL_SHIFT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">21</span> <span class="err">#</span><span class="n">define</span> <span class="nf">TIME_NEAR_MASK</span> <span class="p">(</span><span class="n">TIME_NEAR</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">22</span> <span class="err">#</span><span class="n">define</span> <span class="nf">TIME_LEVEL_MASK</span> <span class="p">(</span><span class="n">TIME_LEVEL</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">23</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">24</span> <span class="k">struct</span> <span class="n">timer_event</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">25</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">handle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">26</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">session</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">27</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">28</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">29</span> <span class="k">struct</span> <span class="n">timer_node</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">30</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">31</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">expire</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">32</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">33</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">34</span> <span class="k">struct</span> <span class="n">link_list</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">35</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="n">head</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">36</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">tail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">37</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">38</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">39</span> <span class="k">struct</span> <span class="n">timer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">40</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">link_list</span> <span class="n">near</span><span class="p">[</span><span class="n">TIME_NEAR</span><span class="p">];</span>		<span class="c1">//到期时间较近定时器事件链表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">41</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">link_list</span> <span class="n">t</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="n">TIME_LEVEL</span><span class="p">];</span>	<span class="c1">//定时器事件链表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">42</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">spinlock</span> <span class="n">lock</span><span class="p">;</span>					<span class="c1">//自旋锁
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">43</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">time</span><span class="p">;</span>						<span class="c1">//启动后tick的时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">44</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">starttime</span><span class="p">;</span>					<span class="c1">//启动时的系统时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">45</span> <span class="o">&gt;</span>   <span class="kt">uint64_t</span> <span class="n">current</span><span class="p">;</span>						<span class="c1">//skynet自己计算出的实际时间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">46</span> <span class="o">&gt;</span>   <span class="kt">uint64_t</span> <span class="n">current_point</span><span class="p">;</span>               <span class="c1">//
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>   <span class="mi">47</span> <span class="p">};</span>
+</span></span></code></pre></div><p>skynet定时器的基本思想就是把到期时间较近的事件放到near数组中，其余的放到t数值中，每次tick后就从near数组中找到到期的事件触发</p>
+<h4 id="定时事件插入" class="headerLink">
+    <a href="#%e5%ae%9a%e6%97%b6%e4%ba%8b%e4%bb%b6%e6%8f%92%e5%85%a5" class="header-mark"></a>定时事件插入</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">   <span class="mi">67</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">68</span> <span class="nf">add_node</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer</span> <span class="o">*</span><span class="n">T</span><span class="p">,</span><span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">node</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">69</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">time</span><span class="o">=</span><span class="n">node</span><span class="o">-&gt;</span><span class="n">expire</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">70</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">current_time</span><span class="o">=</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">71</span> <span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">72</span> <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">((</span><span class="n">time</span><span class="o">|</span><span class="n">TIME_NEAR_MASK</span><span class="p">)</span><span class="o">==</span><span class="p">(</span><span class="n">current_time</span><span class="o">|</span><span class="n">TIME_NEAR_MASK</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">73</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">link</span><span class="p">(</span><span class="o">&amp;</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">near</span><span class="p">[</span><span class="n">time</span><span class="o">&amp;</span><span class="n">TIME_NEAR_MASK</span><span class="p">],</span><span class="n">node</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">74</span> <span class="o">&gt;</span>   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">75</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">76</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">mask</span><span class="o">=</span><span class="n">TIME_NEAR</span> <span class="o">&lt;&lt;</span> <span class="n">TIME_LEVEL_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">77</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">78</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">((</span><span class="n">time</span><span class="o">|</span><span class="p">(</span><span class="n">mask</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">==</span><span class="p">(</span><span class="n">current_time</span><span class="o">|</span><span class="p">(</span><span class="n">mask</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">79</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">80</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">81</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">mask</span> <span class="o">&lt;&lt;=</span> <span class="n">TIME_LEVEL_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">82</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">83</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">84</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">link</span><span class="p">(</span><span class="o">&amp;</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">t</span><span class="p">[</span><span class="n">i</span><span class="p">][((</span><span class="n">time</span><span class="o">&gt;&gt;</span><span class="p">(</span><span class="n">TIME_NEAR_SHIFT</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">TIME_LEVEL_SHIFT</span><span class="p">))</span> <span class="o">&amp;</span> <span class="n">TIME_LEVEL_MASK</span><span class="p">)],</span><span class="n">node</span><span class="p">);</span><span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">85</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="mi">86</span> <span class="p">}</span>
+</span></span></code></pre></div><p>add_node函数可以看出定时事件是怎么分布到near和t数组的</p>
+<p>time可以理解为到期时间，current_time可以理解为现在的时间</p>
+<p>这里假设</p>
+<p>​	current_time二进制表示为 		 100000 | 010000 | 001000 | 000100 | 00000010</p>
+<p>​	t1二进制表示为 							 100000 | 010000 | 001000 | 000100 | 00000011</p>
+<p>​	t2二进制表示为 							 100000 | 010000 | 001000 | 000101 | 00000010</p>
+<p>​	t3二进制表示为 							 100000 | 010000 | 001001 | 000100 | 00000010</p>
+<p>​	t4二进制表示为 							 100000 | 010001 | 001000 | 000100 | 00000010</p>
+<p>​	t5二进制表示为 							 100001 | 010000 | 001000 | 000100 | 00000010</p>
+<p>72 ~ 73：</p>
+<p>​	将time和current_time第9~32位都相同的事件放到near[x]，x是time的第1~8位表示的数值（当time=t1时，t1放到near[3]中，因为t1第1~8位 00000011即为3）</p>
+<p>76 ~ 82：</p>
+<p>​	将time和current_time第15~32相同，但第9~14位不相同的到期事件放到t[0][x]数组中，x是time的第9~14位表示的数值（当time=t2时，t2放到t[0][5]，因为t2第9~14位 000101 即为5）</p>
+<p>​	将time和current_time第21~32相同，但第15~20位不相同的到期事件放到t[1][x]数组中，x是time的第15~20位表示的数值（当time=t3时，t3放到t[0][9]，因为t2第9~14位 001001 即为9）</p>
+<p>​	将time和current_time第27~32相同，但第21~26位不相同的到期事件放到t[2][x]数组中，x是time的第21~26位表示的数值（当time=t4时，t4放到t[0][17]，因为t2第9~14位 010001 即为17）</p>
+<p>​	将time和current_time27~32位不相同的到期事件放到t[3][x]数组中，x是time的第27~32位表示的数值（当time=t5时，t5放到t[0][33]，因为t2第9~14位 100001 即为33）</p>
+<p>大致上看当current_time为100000 | 010000 | 001000 | 000100 | xxxxxxxx时：</p>
+<p>​	100000 | 010000 | 001000 | 000100 | xxxxxxxx 放到 near中</p>
+<p>​	100000 | 010000 | 001000 | xxxxxx | xxxxxxxx 放到t[0]中</p>
+<p>​	100000 | 010000 | xxxxxx | xxxxxx | xxxxxxxx 放到t[1]中</p>
+<p>​	100000 | xxxxxx | xxxxxx | xxxxxx | xxxxxxxx 放到t[2]中</p>
+<p>​	xxxxxx| xxxxxx| xxxxxx | xxxxxx | xxxxxxxx 放到t[3]中</p>
+<p>需要注意的是，并不是说和current_time接近的time就一定会在near中，因为near只包含第9~32位都相同的情况</p>
+<p>​	一个比较极端的情况是当current_time为 000000 | 111111 | 111111 | 111111 | 11111111</p>
+<p>​	此时插入与其相差为1的time（000001 | 000000 | 000000 | 000000 | 00000000），是放在t[3][1]中</p>
+<h4 id="定时器执行" class="headerLink">
+    <a href="#%e5%ae%9a%e6%97%b6%e5%99%a8%e6%89%a7%e8%a1%8c" class="header-mark"></a>定时器执行</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">152</span> <span class="k">static</span> <span class="kr">inline</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">153</span> <span class="nf">timer_execute</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer</span> <span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">154</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">T</span><span class="o">-&gt;</span><span class="n">time</span> <span class="o">&amp;</span> <span class="n">TIME_NEAR_MASK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">155</span> <span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">156</span> <span class="o">&gt;</span>   <span class="k">while</span> <span class="p">(</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">near</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">head</span><span class="p">.</span><span class="n">next</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">157</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">current</span> <span class="o">=</span> <span class="nf">link_clear</span><span class="p">(</span><span class="o">&amp;</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">near</span><span class="p">[</span><span class="n">idx</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">158</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">SPIN_UNLOCK</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">159</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="c1">// dispatch_list don&#39;t need lock T
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">160</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">dispatch_list</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">161</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">SPIN_LOCK</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">162</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">163</span> <span class="p">}</span>
+</span></span></code></pre></div><p>​	因为最近的事件都在near上，只需要根据idx就能找到到期的事件</p>
+<h4 id="到期事件再分配" class="headerLink">
+    <a href="#%e5%88%b0%e6%9c%9f%e4%ba%8b%e4%bb%b6%e5%86%8d%e5%88%86%e9%85%8d" class="header-mark"></a>到期事件再分配</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">101</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">102</span> <span class="nf">move_list</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer</span> <span class="o">*</span><span class="n">T</span><span class="p">,</span> <span class="kt">int</span> <span class="n">level</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">103</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">current</span> <span class="o">=</span> <span class="nf">link_clear</span><span class="p">(</span><span class="o">&amp;</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">t</span><span class="p">[</span><span class="n">level</span><span class="p">][</span><span class="n">idx</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">104</span> <span class="o">&gt;</span>   <span class="k">while</span> <span class="p">(</span><span class="n">current</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">105</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_node</span> <span class="o">*</span><span class="n">temp</span><span class="o">=</span><span class="n">current</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">106</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">add_node</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">current</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">107</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">current</span><span class="o">=</span><span class="n">temp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">108</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">109</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="mi">111</span> <span class="k">static</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">112</span> <span class="nf">timer_shift</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer</span> <span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">113</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">mask</span> <span class="o">=</span> <span class="n">TIME_NEAR</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">114</span> <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">ct</span> <span class="o">=</span> <span class="o">++</span><span class="n">T</span><span class="o">-&gt;</span><span class="n">time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">115</span> <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">(</span><span class="n">ct</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">116</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">move_list</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">117</span> <span class="o">&gt;</span>   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">118</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">time</span> <span class="o">=</span> <span class="n">ct</span> <span class="o">&gt;&gt;</span> <span class="n">TIME_NEAR_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">119</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">120</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">121</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">while</span> <span class="p">((</span><span class="n">ct</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">mask</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">122</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="n">time</span> <span class="o">&amp;</span> <span class="n">TIME_LEVEL_MASK</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">123</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">(</span><span class="n">idx</span><span class="o">!=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">124</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">move_list</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">125</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">break</span><span class="p">;</span><span class="o">&gt;</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">126</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">127</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">mask</span> <span class="o">&lt;&lt;=</span> <span class="n">TIME_LEVEL_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">128</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">time</span> <span class="o">&gt;&gt;=</span> <span class="n">TIME_LEVEL_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">129</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">130</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">131</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">132</span> <span class="p">}</span>
+</span></span></code></pre></div><p>由于要保证快到期的事件都要在near中，随着current_time增加，t中某些事件与current_time的相对位置就会发生改变，time_shift就是处理这种情况</p>
+<p>115 ~ 116：</p>
+<p>​	当time溢出时，把t[3][0]中的事件重新分配到数组中</p>
+<p>121 ~ 131：</p>
+<p>​	当time第1~25位为0时（即 xxxxxx | 000000 | 000000 | 000000 | 00000000），把t[3][x]中的事件根据当前时间重新分配</p>
+<p>​	当time第1~20位为0时（即 xxxxxx | xxxxxx | 000000 | 000000 | 00000000），把t[2][x]中的事件根据当前时间重新分配</p>
+<p>​	当time第1~14位为0时（即 xxxxxx | xxxxxx | xxxxxx | 000000 | 00000000），把t[1][x]中的事件根据当前时间重新分配</p>
+<p>​    当time第1~8位为0时（即 xxxxxx | xxxxxx | xxxxxx | xxxxxx | 00000000），把t[0][x]中的事件根据当前时间重新分配</p>
+<h4 id="tick函数" class="headerLink">
+    <a href="#tick%e5%87%bd%e6%95%b0" class="header-mark"></a>tick函数</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">165</span> <span class="k">static</span> <span class="kt">void</span><span class="o">-</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">166</span> <span class="nf">timer_update</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer</span> <span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">167</span> <span class="o">&gt;</span>   <span class="nf">SPIN_LOCK</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">168</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">169</span> <span class="o">&gt;</span>   <span class="c1">// try to dispatch timeout 0 (rare condition)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">170</span> <span class="o">&gt;</span>   <span class="nf">timer_execute</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">171</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">172</span> <span class="o">&gt;</span>   <span class="c1">// shift time first, and then dispatch timer message
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">173</span> <span class="o">&gt;</span>   <span class="nf">timer_shift</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">174</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">175</span> <span class="o">&gt;</span>   <span class="nf">timer_execute</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">176</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">177</span> <span class="o">&gt;</span>   <span class="nf">SPIN_UNLOCK</span><span class="p">(</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">178</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="mi">204</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">205</span> <span class="nf">skynet_timeout</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">handle</span><span class="p">,</span> <span class="kt">int</span> <span class="n">time</span><span class="p">,</span> <span class="kt">int</span> <span class="n">session</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">206</span> <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">(</span><span class="n">time</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">207</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">skynet_message</span> <span class="n">message</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">208</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">message</span><span class="p">.</span><span class="n">source</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">209</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">message</span><span class="p">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">session</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">210</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">message</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">211</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">message</span><span class="p">.</span><span class="n">sz</span> <span class="o">=</span> <span class="p">(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">PTYPE_RESPONSE</span> <span class="o">&lt;&lt;</span> <span class="n">MESSAGE_TYPE_SHIFT</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">212</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">213</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">(</span><span class="nf">skynet_context_push</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">message</span><span class="p">))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">214</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">215</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">216</span> <span class="o">&gt;</span>   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">217</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timer_event</span> <span class="n">event</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">218</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">event</span><span class="p">.</span><span class="n">handle</span> <span class="o">=</span> <span class="n">handle</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">219</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">event</span><span class="p">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">session</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">220</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">timer_add</span><span class="p">(</span><span class="n">TI</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">event</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">event</span><span class="p">),</span> <span class="n">time</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">221</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">222</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">223</span> <span class="o">&gt;</span>   <span class="k">return</span> <span class="n">session</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">224</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="mi">235</span> <span class="k">static</span> <span class="kt">uint64_t</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">236</span> <span class="nf">gettime</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">237</span> <span class="o">&gt;</span>   <span class="kt">uint64_t</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">238</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">timespec</span> <span class="n">ti</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">239</span> <span class="o">&gt;</span>   <span class="nf">clock_gettime</span><span class="p">(</span><span class="n">CLOCK_MONOTONIC</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ti</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">240</span> <span class="o">&gt;</span>   <span class="n">t</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint64_t</span><span class="p">)</span><span class="n">ti</span><span class="p">.</span><span class="n">tv_sec</span> <span class="o">*</span> <span class="mi">100</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">241</span> <span class="o">&gt;</span>   <span class="n">t</span> <span class="o">+=</span> <span class="n">ti</span><span class="p">.</span><span class="n">tv_nsec</span> <span class="o">/</span> <span class="mi">10000000</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">242</span> <span class="o">&gt;</span>   <span class="k">return</span> <span class="n">t</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">243</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="mi">245</span> <span class="kt">void</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">246</span> <span class="nf">skynet_updatetime</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">247</span> <span class="o">&gt;</span>   <span class="kt">uint64_t</span> <span class="n">cp</span> <span class="o">=</span> <span class="nf">gettime</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">248</span> <span class="o">&gt;</span>   <span class="k">if</span><span class="p">(</span><span class="n">cp</span> <span class="o">&lt;</span> <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">249</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">skynet_error</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="s">&#34;time diff error: change from %lld to %lld&#34;</span><span class="p">,</span> <span class="n">cp</span><span class="p">,</span> <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">250</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span> <span class="o">=</span> <span class="n">cp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">251</span> <span class="o">&gt;</span>   <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">cp</span> <span class="o">!=</span> <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">252</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">uint32_t</span> <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">cp</span> <span class="o">-</span> <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">253</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current_point</span> <span class="o">=</span> <span class="n">cp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">254</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">TI</span><span class="o">-&gt;</span><span class="n">current</span> <span class="o">+=</span> <span class="n">diff</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">255</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">256</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">diff</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">257</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">timer_update</span><span class="p">(</span><span class="n">TI</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">258</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">259</span> <span class="o">&gt;</span>   <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">260</span> <span class="p">}</span>
+</span></span></code></pre></div><p>skynet的timer线程每2500微秒（即2.5毫秒）执行一次skynet_updatetime</p>
+<p>247：获取当前的时间（并不是系统时间，而是系统启动到现在的时间，具体可以查看clock_gettime函数），可以看到cp的单位是10毫秒，这意味着skynet的定时器每10毫秒tick一次，每tick一次，执行10次timer_update</p>
+<p>170 ~ 175 ：</p>
+<p>​	这里执行了两次timer_execute，按理来说，第一次timer_execute并不是必须的，因为在skynet_timeout第206行中对于time==0的事件是直接分发事件而不进入到定时器中。对于为啥执行两次的解释https://github.com/cloudwu/skynet/issues/1191，作者希望timer 不需要关注 skynet 的用法实现，即不管skynet有没有处理time==0的情况，timer都不会因此出现bug。</p>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2023-11-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/skynet/skynet_net/" class="prev" rel="prev" title="skynet的网络"><i class="fas fa-angle-left fa-fw"></i>skynet的网络</a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.121.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+</body>
+
+</html>

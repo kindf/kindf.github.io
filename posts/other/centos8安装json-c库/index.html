@@ -4,31 +4,42 @@
 <html lang="zh-CN">
 
 <head>
-	<meta name="generator" content="Hugo 0.121.0">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>kindf</title><meta name="Description" content=""><meta property="og:title" content="kindf" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="http://example.org/" />
+    <title>CentOS8安装json C库 - kindf</title><meta name="Description" content=""><meta property="og:title" content="CentOS8安装json C库" />
+<meta property="og:description" content="Cenos8安装json-c库 先把文件从https://github.com/json-c/json-c克隆到本地目录 进入json-c目录分" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-01-26T23:02:34+08:00" />
+<meta property="article:modified_time" content="2021-01-26T23:02:34+08:00" />
 
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="kindf"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="CentOS8安装json C库"/>
+<meta name="twitter:description" content="Cenos8安装json-c库 先把文件从https://github.com/json-c/json-c克隆到本地目录 进入json-c目录分"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/" /><link rel="alternate" href="/index.xml" type="application/rss+xml" title="kindf">
-    <link rel="feed" href="/index.xml" type="application/rss+xml" title="kindf">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/" /><link rel="prev" href="http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" /><link rel="next" href="http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
-        "@type": "WebSite",
-        "url": "http:\/\/example.org\/","inLanguage": "zh-CN","name": "kindf"
+        "@type": "BlogPosting",
+        "headline": "CentOS8安装json C库",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/other\/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93\/"
+        },"genre": "posts","wordcount":  609 ,
+        "url": "http:\/\/example.org\/posts\/other\/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93\/","datePublished": "2021-01-26T23:02:34+08:00","dateModified": "2021-01-26T23:02:34+08:00","publisher": {
+            "@type": "Organization",
+            "name": "作者"},"authors": [{
+                        "@type": "Person",
+                        "name": "kindf"                    
+                    }],"description": ""
     }
     </script></head>
 
@@ -102,49 +113,71 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><div class="page home" posts><div class="home-profile"><div class="home-avatar"><a href="/posts/" title="博客"><img
-        
-        loading="eager"
-        src="/images/avatar.jpg"
-        srcset="/images/avatar.jpg, /images/avatar.jpg 1.5x, /images/avatar.jpg 2x"
-        sizes="auto"
-        alt="/images/avatar.jpg"
-        title="/images/avatar.jpg" height="100"   width="100" ></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/kindf" title="GitHub" target="_blank" rel="noopener noreferrer me"><span class="fab fa-github-alt fa-fw"></span></a><a href="mailto:1304298803@qq.com" title="Email" rel=" me"><span class="far fa-envelope fa-fw"></span></a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_timer/">skynet的定时器</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-11-14">2023-11-14</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_timer/">阅读全文</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_net/">skynet的网络</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-11-01">2023-11-01</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_net/">阅读全文</a></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-        <a href="/posts/skynet/skynet_cb/">skynet的callback</a>
-    </h1><div class="post-meta">
-        <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-        </span>&nbsp;<span class="post-publish">发布于 <time datetime="2023-09-19">2023-09-19</time></span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div><div class="content">skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca</div><div class="post-footer">
-        <a href="/posts/skynet/skynet_cb/">阅读全文</a></div>
-</article><ul class="pagination"><li class="page-item active">
-                    <span class="page-link">
-                        <a href="/">1</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/2/">2</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/3/">3</a>
-                    </span>
-                </li><li class="page-item ">
-                    <span class="page-link">
-                        <a href="/page/4/">4</a>
-                    </span>
-                </li></ul></div></div>
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CentOS8安装json C库</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-01-26">2021-01-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 609 字&nbsp;</div>
+        </div><div class="content" id="content"><h4 id="cenos8安装json-c库" class="headerLink">
+    <a href="#cenos8%e5%ae%89%e8%a3%85json-c%e5%ba%93" class="header-mark"></a>Cenos8安装json-c库</h4><ul>
+<li>
+<p>先把文件从https://github.com/json-c/json-c克隆到本地目录</p>
+</li>
+<li>
+<p>进入json-c目录分别执行cmake ./，sudo make install（cmake要先下好）</p>
+</li>
+<li>
+<p>安装完成后查看一下/usr/local/include目录下是否有json-c目录（没有就是安装的时候没给权限导致复制失败）</p>
+</li>
+<li>
+<p>查看/usr/local/lib目录或者/usr/local/lib64目录下是否有json-c的动态库文件（没有的话应该时安装有问题）</p>
+</li>
+<li>
+<p>添加动态路的路径：sudo vim /etc/ld.so.conf添加/usr/local/lib或者/usr/local/lib64（根据上一步的目录）</p>
+</li>
+<li>
+<p>用 sudo ldconfig更新文件/etc/ld.so.conf的修改生效</p>
+</li>
+<li>
+<p>使用时要包含json.h头文件，编译时需要加上-ljson-c（我看网上的都是-json的，这个应该是要看动态库的名称确定吧）</p>
+</li>
+<li>
+<p>安装时遇到的问题</p>
+<ul>
+<li>没有安装cmake工具导致执行cmake命令时出现问题（cmake的版本也要确定一下）</li>
+<li>使用-json-c编译导致编译失败</li>
+<li>make install时没给权限导致install失败（安装时弹了一个error，没仔细看出来）</li>
+<li>没有添加动态库的加载路径，导致执行文件时会报错找不到动态库文件，用ldd查看一下是libjson-c.so.5文件没找到，加了路径记得要sudo ldconfig更新一下不然还是不生效的</li>
+</ul>
+</li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2021-01-26</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" class="prev" rel="prev" title="GDB基本操作"><i class="fas fa-angle-left fa-fw"></i>GDB基本操作</a>
+            <a href="/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/" class="next" rel="next" title="Redis持久化">Redis持久化<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
         </main><footer class="footer">
         <div class="footer-container"><div class="footer-line">
                     由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.121.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
@@ -160,7 +193,7 @@
             <i class="fas fa-comment fa-fw"></i>
         </a>
     </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
-        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"data":{"id-1":"这里是kindf的博客网站"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"table":{"sort":true},"typeit":{"cursorChar":null,"cursorSpeed":null,"data":{"id-1":["id-1"]},"duration":null,"speed":null}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
 </body>
 
 </html>

@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <title>进程间通讯 - kindf</title><meta name="Description" content=""><meta property="og:title" content="进程间通讯" />
+<meta property="og:description" content="管道(内核管理的一个缓冲区) 匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-03T23:56:42+08:00" />
+<meta property="article:modified_time" content="2020-07-03T23:56:42+08:00" />
+
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="进程间通讯"/>
+<meta name="twitter:description" content="管道(内核管理的一个缓冲区) 匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通"/>
+<meta name="application-name" content="kindf">
+<meta name="apple-mobile-web-app-title" content="kindf">
+
+<meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" /><link rel="next" href="http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/" />
+<link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
+        <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
+        <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "进程间通讯",
+        "inLanguage": "zh-CN",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/example.org\/posts\/other\/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF\/"
+        },"genre": "posts","wordcount":  812 ,
+        "url": "http:\/\/example.org\/posts\/other\/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF\/","datePublished": "2020-07-03T23:56:42+08:00","dateModified": "2020-07-03T23:56:42+08:00","publisher": {
+            "@type": "Organization",
+            "name": "作者"},"authors": [{
+                        "@type": "Person",
+                        "name": "kindf"                    
+                    }],"description": ""
+    }
+    </script></head>
+
+<body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">
+        function setTheme(theme) {document.body.setAttribute('theme', theme); document.documentElement.style.setProperty('color-scheme', theme === 'light' ? 'light' : 'dark'); window.theme = theme;   window.isDark = window.theme !== 'light' }
+        function saveTheme(theme) {window.localStorage && localStorage.setItem('theme', theme);}
+        function getMeta(metaName) {const metas = document.getElementsByTagName('meta'); for (let i = 0; i < metas.length; i++) if (metas[i].getAttribute('name') === metaName) return metas[i]; return '';}
+        if (window.localStorage && localStorage.getItem('theme')) {let theme = localStorage.getItem('theme');theme === 'light' || theme === 'dark' || theme === 'black' ? setTheme(theme) : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light')); } else { if ('' === 'light' || '' === 'dark' || '' === 'black') setTheme(''), saveTheme(''); else saveTheme('auto'), window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setTheme('dark') : setTheme('light');}
+        let metaColors = {'light': '#f8f8f8','dark': '#252627','black': '#000000'}
+        getMeta('theme-color').content = metaColors[document.body.getAttribute('theme')];
+        window.switchThemeEventSet = new Set()
+    </script>
+    <div id="back-to-top"></div>
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="kindf">首页</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> 博客 </a><a class="menu-item" href="/categories/"> 分类 </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a></div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="kindf">首页</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="搜索文章标题或内容..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        取消
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">博客</a><a class="menu-item" href="/categories/" title="">分类</a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">进程间通讯</h1><div class="post-meta">
+            <div class="post-meta-line">
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-03">2020-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 812 字&nbsp;</div>
+        </div><div class="content" id="content"><ul>
+<li>
+<h1 id="管道内核管理的一个缓冲区" class="headerLink">
+    <a href="#%e7%ae%a1%e9%81%93%e5%86%85%e6%a0%b8%e7%ae%a1%e7%90%86%e7%9a%84%e4%b8%80%e4%b8%aa%e7%bc%93%e5%86%b2%e5%8c%ba" class="header-mark"></a>管道(内核管理的一个缓冲区)</h1><ul>
+<li>匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通道从而形成单向通信的通道)</li>
+<li>有名管道：通常用于无亲缘关系进程间的通信</li>
+<li>四种读写情况
+<ul>
+<li>读端不读（fd[0]未关闭），写端一直写 ：直到管道写满数据后，再次write会导致阻塞，直到管道有空位置才写去数据并返回</li>
+<li>写端不写（fd[1]未关闭），但是读端一直读（写端不关闭）：管道为空时阻塞读端，直到管道有数据时才读数据并返回（是否阻塞取决于写端计数器是否大于0&hellip;.）</li>
+<li>读端一直读，且fd[0]保持打开，而写端写了一部分数据不写了，并且关闭fd[1]：读取管道所有数据后返回0</li>
+<li>读端读了一部分数据，不读了且关闭fd[0]，写端一直在写且f[1]还保持打开状态：一旦读端关闭而进程write时会接受信号SIGPIPE，通常导致进程异常终止</li>
+</ul>
+</li>
+<li>局限性
+<ul>
+<li>只支持单向数据流</li>
+<li>缓冲区有限，管道只存在于主存中</li>
+<li>所传送的是无格式字节流</li>
+<li>效率低下（写数据需要读端读取后才返回）</li>
+<li>需要注意同步问题？(自带有同步机制)</li>
+<li>有名管道：长期存于系统中，使用不当容易出错</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h1 id="消息队列" class="headerLink">
+    <a href="#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97" class="header-mark"></a>消息队列</h1><ul>
+<li>实际上就是信息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
+<li>信息的传递经过四次信息复制：写端-&gt;内核 内核-&gt;读端(消息队列中信息的复制需要额外消耗CPU的时间．不适宜于信息量大或操作频繁的场合)</li>
+<li>消息队列克服了信号传递信息少,管道只能承载无格式字节流以及缓冲区大小受限等特点</li>
+<li>可以实现任意进程间的通信，并通过系统调用函数来实现消息发送和接收之间的同步，无需考虑同步问题，方便</li>
+</ul>
+</li>
+<li>
+<h1 id="共享内存" class="headerLink">
+    <a href="#%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98" class="header-mark"></a>共享内存</h1><ul>
+<li>内存共享机制：将进程的虚拟地址空间映射到相同的物理内存中</li>
+<li>该做法会引起进程的内存竞争问题</li>
+<li>共享内存是最快的IPC(进程间通信)方式</li>
+</ul>
+</li>
+<li>
+<h1 id="信号量" class="headerLink">
+    <a href="#%e4%bf%a1%e5%8f%b7%e9%87%8f" class="header-mark"></a>信号量</h1><ul>
+<li>用于实现进程间的互斥同步问题</li>
+</ul>
+</li>
+<li>
+<h1 id="socket" class="headerLink">
+    <a href="#socket" class="header-mark"></a>socket</h1><ul>
+<li>不同主机间进程通信的主要方法</li>
+</ul>
+</li>
+</ul>
+</div>
+
+        <div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>更新于 2020-07-03</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share"></div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+            <a href="/posts/other/io%E6%A8%A1%E5%9E%8B/" class="next" rel="next" title="Io模型">Io模型<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></div>
+        </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">
+                    由 <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer" title="Hugo 0.121.0">Hugo</a> 强力驱动&nbsp;|&nbsp;主题 - <a href="https://github.com/HEIGE-PCloud/DoIt" target="_blank" rel="noopener noreferrer" title="DoIt 0.4.0"><i class="far fa-edit fa-fw"></i> DoIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2019 - 2023</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank" rel="noopener noreferrer"></a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+            <div class="footer-line"></div>
+            <div class="footer-line">
+            </div>
+        </div></footer></div>
+
+    <div id="fixed-buttons"><a href="#back-to-top" id="back-to-top-button" class="fixed-button" title="回到顶部">
+            <i class="fas fa-arrow-up fa-fw"></i>
+        </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+            <i class="fas fa-comment fa-fw"></i>
+        </a>
+    </div><div class="assets"><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/katex/copy-tex.min.css">
+        <noscript><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"></noscript><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":100},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/index.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"table":{"sort":true}};</script><script type="text/javascript" src="/lib/tablesort/tablesort.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js" defer></script><script type="text/javascript" src="/lib/katex/auto-render.min.js" defer></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js" defer></script><script type="text/javascript" src="/lib/katex/mhchem.min.js" defer></script><script type="text/javascript" src="/js/katex.min.js" defer></script><script type="text/javascript" src="/js/theme.min.js" defer></script></div>
+</body>
+
+</html>
