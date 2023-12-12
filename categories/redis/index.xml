@@ -1,19 +1,19 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>redis - 分类 - kindf</title>
-        <link>https://kindf.github.io/categories/redis/</link>
+        <link>http://example.org/categories/redis/</link>
         <description>redis - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 10 Aug 2021 23:43:51 &#43;0800</lastBuildDate><atom:link href="https://kindf.github.io/categories/redis/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 10 Aug 2021 23:43:51 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/redis/" rel="self" type="application/rss+xml" /><item>
     <title>Redis主从库数据同步</title>
-    <link>https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</link>
+    <link>http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</link>
     <pubDate>Tue, 10 Aug 2021 23:43:51 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</guid>
     <description><![CDATA[redis主从库模式 redis高可靠性 高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保]]></description>
 </item><item>
     <title>Redis持久化</title>
-    <link>https://kindf.github.io/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+    <link>http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
     <pubDate>Mon, 26 Jul 2021 23:02:25 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
     <description><![CDATA[AOF日志 AOF日志实现 AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回 AOF日志采用先执⾏命令再记⽇志的方式（为避]]></description>
 </item></channel>
 </rss>

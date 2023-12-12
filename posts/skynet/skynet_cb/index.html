@@ -8,20 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
     <title>skynet的callback - kindf</title><meta name="Description" content=""><meta property="og:title" content="skynet的callback" />
-<meta property="og:description" content="skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca" />
+<meta property="og:description" content="skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kindf.github.io/posts/skynet/skynet_cb/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://example.org/posts/skynet/skynet_cb/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-09-19T16:44:37+08:00" />
 <meta property="article:modified_time" content="2023-09-19T16:44:37+08:00" />
 
 <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="skynet的callback"/>
-<meta name="twitter:description" content="skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca"/>
+<meta name="twitter:description" content="skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://kindf.github.io/posts/skynet/skynet_cb/" /><link rel="prev" href="https://kindf.github.io/posts/other/elf%E6%96%87%E4%BB%B6/" /><link rel="next" href="https://kindf.github.io/posts/skynet/skynet_net/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/skynet/skynet_cb/" /><link rel="prev" href="http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/" /><link rel="next" href="http://example.org/posts/skynet/skynet_net/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
@@ -32,9 +32,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/kindf.github.io\/posts\/skynet\/skynet_cb\/"
-        },"genre": "posts","wordcount":  1170 ,
-        "url": "https:\/\/kindf.github.io\/posts\/skynet\/skynet_cb\/","datePublished": "2023-09-19T16:44:37+08:00","dateModified": "2023-09-19T16:44:37+08:00","publisher": {
+            "@id": "http:\/\/example.org\/posts\/skynet\/skynet_cb\/"
+        },"genre": "posts","wordcount":  538 ,
+        "url": "http:\/\/example.org\/posts\/skynet\/skynet_cb\/","datePublished": "2023-09-19T16:44:37+08:00","dateModified": "2023-09-19T16:44:37+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
                         "@type": "Person",
@@ -115,95 +115,40 @@
 <main class="main">
             <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">skynet的callback</h1><div class="post-meta">
             <div class="post-meta-line">
-                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://kindf.github.io/authors/kindf'>kindf</a></span>
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-19">2023-09-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1170 字&nbsp;</div>
-        </div><div class="content" id="content"><h3 id="skynet的callback" class="headerLink">
-    <a href="#skynet%e7%9a%84callback" class="header-mark"></a>skynet的callback</h3><p>云风的解释[https://blog.codingnow.com/2022/04/lua_binding_callback.html]</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="kr">function</span> <span class="nc">skynet</span><span class="p">.</span><span class="nf">start</span><span class="p">(</span><span class="n">start_func</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="n">c.callback</span><span class="p">(</span><span class="n">skynet.dispatch_message</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">	<span class="n">init_thread</span> <span class="o">=</span> <span class="n">skynet.timeout</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kr">function</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">	<span class="n">skynet.init_service</span><span class="p">(</span><span class="n">start_func</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">		<span class="n">init_thread</span> <span class="o">=</span> <span class="kc">nil</span>
-</span></span><span class="line"><span class="cl">	<span class="kr">end</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="kr">end</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="mi">97</span> <span class="k">static</span> <span class="kt">int</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">98</span> <span class="nf">lcallback</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">99</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">skynet_context</span> <span class="o">*</span> <span class="n">context</span> <span class="o">=</span> <span class="nf">lua_touserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="nf">lua_upvalueindex</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">100</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">forward</span> <span class="o">=</span> <span class="nf">lua_toboolean</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">101</span> <span class="o">&gt;</span>   <span class="nf">luaL_checktype</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">LUA_TFUNCTION</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">102</span> <span class="o">&gt;</span>   <span class="nf">lua_settop</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">103</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">callback_context</span> <span class="o">*</span><span class="n">cb_ctx</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">callback_context</span> <span class="o">*</span><span class="p">)</span><span class="nf">lua_newuserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">cb_ctx</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">104</span> <span class="o">&gt;</span>   <span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span> <span class="o">=</span> <span class="nf">lua_newthread</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">105</span> <span class="o">&gt;</span>   <span class="nf">lua_pushcfunction</span><span class="p">(</span><span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">,</span> <span class="n">traceback</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">106</span> <span class="o">&gt;</span>   <span class="nf">lua_setuservalue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">107</span> <span class="o">&gt;</span>   <span class="nf">lua_setfield</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">LUA_REGISTRYINDEX</span><span class="p">,</span> <span class="s">&#34;callback_context&#34;</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">108</span> <span class="o">&gt;</span>   <span class="nf">lua_xmove</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">109</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">110</span> <span class="o">&gt;</span>   <span class="k">if</span> <span class="p">(</span><span class="n">forward</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">111</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">skynet_callback</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">cb_ctx</span><span class="p">,</span> <span class="n">forward_cb</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">112</span> <span class="o">&gt;</span>   <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">113</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="nf">skynet_callback</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">cb_ctx</span><span class="p">,</span> <span class="n">_cb</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">114</span> <span class="o">&gt;</span>   <span class="p">}</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">115</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">116</span> <span class="o">&gt;</span>   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">  <span class="mi">117</span> <span class="p">}</span>
-</span></span></code></pre></div><p>skynet.start中的c.callback()对应c端的lcallback</p>
-<h4 id="lcallback分析" class="headerLink">
-    <a href="#lcallback%e5%88%86%e6%9e%90" class="header-mark"></a>lcallback分析</h4><p>99：lua_upvalueindex(1)获取调用函数的第一个上值，对应skynet.start()中的c，该值是一个userdata</p>
-<p>100：获取传入的第二个参数</p>
-<p>101：检查传入的第一个参数类型是否是lua的function</p>
-<p>102：把堆栈的栈顶设为1，只保留传入的lua function</p>
-<p>103：创建一个userdata</p>
-<p>104：创建新的lua线程，把该线程对象push到L的栈顶，c端的cb_ctx-&gt;L 指向该对象</p>
-<p>105：把traceback push到新线程的栈顶</p>
-<p>106：从L的堆栈中弹出新创建的线程对象并将其该设为用户数据（103行创建的）的uservalue</p>
-<p>107：将第103行创建的userdata设置为注册表的”callback_context“字段并弹出，此时栈中剩下调用c函数时传入的lua function</p>
-<p>108：把传入参数（lua function）从L堆栈弹出并压入cb_ctx-&gt;L的栈中</p>
-<p>113：将新创建的线程对象的引用和回调函数注册到context中（后续回调时会用到）</p>
-<h3 id="callback调用" class="headerLink">
-    <a href="#callback%e8%b0%83%e7%94%a8" class="header-mark"></a>callback调用</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-lua" data-lang="lua"><span class="line"><span class="cl"><span class="mi">53</span> <span class="n">static</span> <span class="n">int</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">54</span> <span class="n">_cb</span><span class="p">(</span><span class="n">struct</span> <span class="n">skynet_context</span> <span class="o">*</span> <span class="n">context</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span> <span class="n">ud</span><span class="p">,</span> <span class="n">int</span> <span class="n">type</span><span class="p">,</span> <span class="n">int</span> <span class="n">session</span><span class="p">,</span> <span class="n">uint32_t</span> <span class="n">source</span><span class="p">,</span> <span class="n">const</span> <span class="n">void</span> <span class="o">*</span> <span class="n">msg</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">sz</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">55</span> <span class="o">&gt;</span>   <span class="n">struct</span> <span class="n">callback_context</span> <span class="o">*</span><span class="n">cb_ctx</span> <span class="o">=</span> <span class="p">(</span><span class="n">struct</span> <span class="n">callback_context</span> <span class="o">*</span><span class="p">)</span><span class="n">ud</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">56</span> <span class="o">&gt;</span>   <span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span> <span class="o">=</span> <span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">57</span> <span class="o">&gt;</span>   <span class="n">int</span> <span class="n">trace</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">58</span> <span class="o">&gt;</span>   <span class="n">int</span> <span class="n">r</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">59</span> <span class="o">&gt;</span>   <span class="n">lua_pushvalue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">60</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">61</span> <span class="o">&gt;</span>   <span class="n">lua_pushinteger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">62</span> <span class="o">&gt;</span>   <span class="n">lua_pushlightuserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="p">(</span><span class="n">void</span> <span class="o">*</span><span class="p">)</span><span class="n">msg</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">63</span> <span class="o">&gt;</span>   <span class="n">lua_pushinteger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">sz</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">64</span> <span class="o">&gt;</span>   <span class="n">lua_pushinteger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">session</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">65</span> <span class="o">&gt;</span>   <span class="n">lua_pushinteger</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">source</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">66</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">67</span> <span class="o">&gt;</span>   <span class="n">r</span> <span class="o">=</span> <span class="n">lua_pcall</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="n">trace</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">68</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">69</span> <span class="o">&gt;</span>   <span class="kr">if</span> <span class="p">(</span><span class="n">r</span> <span class="o">==</span> <span class="n">LUA_OK</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">70</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kr">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">71</span> <span class="o">&gt;</span>   <span class="p">}</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">72</span> <span class="o">&gt;</span>   <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">self</span> <span class="o">=</span> <span class="n">skynet_command</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;REG&#34;</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">73</span> <span class="o">&gt;</span>   <span class="n">switch</span> <span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">74</span> <span class="o">&gt;</span>   <span class="n">case</span> <span class="n">LUA_ERRRUN</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">75</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">skynet_error</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;lua call [%x to %s : %d msgsz = %d] error : &#34;</span> <span class="n">KRED</span> <span class="s2">&#34;%s&#34;</span> <span class="n">KNRM</span><span class="p">,</span> <span class="n">source</span> <span class="p">,</span> <span class="n">self</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">sz</span><span class="p">,</span> <span class="n">lua_tostring</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">76</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kr">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">77</span> <span class="o">&gt;</span>   <span class="n">case</span> <span class="n">LUA_ERRMEM</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">78</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">skynet_error</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;lua memory error : [%x to %s : %d]&#34;</span><span class="p">,</span> <span class="n">source</span> <span class="p">,</span> <span class="n">self</span><span class="p">,</span> <span class="n">session</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">79</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kr">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">80</span> <span class="o">&gt;</span>   <span class="n">case</span> <span class="n">LUA_ERRERR</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">81</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="n">skynet_error</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="s2">&#34;lua error in error : [%x to %s : %d]&#34;</span><span class="p">,</span> <span class="n">source</span> <span class="p">,</span> <span class="n">self</span><span class="p">,</span> <span class="n">session</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">82</span> <span class="o">&gt;</span>   <span class="o">&gt;</span>   <span class="kr">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">83</span> <span class="o">&gt;</span>   <span class="p">};</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">84</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">85</span> <span class="o">&gt;</span>   <span class="n">lua_pop</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">86</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">87</span> <span class="o">&gt;</span>   <span class="kr">return</span> <span class="mi">0</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">   <span class="mi">88</span> <span class="p">}</span>
-</span></span></code></pre></div><h4 id="_cb分析" class="headerLink">
-    <a href="#_cb%e5%88%86%e6%9e%90" class="header-mark"></a>_cb分析</h4><p>消息分发到actor时，会调用dispatch_message接口，最后会调用到_cb</p>
-<p>55：ud就是lcallback第103所创建的userdata，实际上是注册回调时创建的lua thread对象，回调发生在这个thread中</p>
-<p>59：此时cb_cxt-&gt;L的堆栈中有traceback（lcallback第105行）和 传入的lua function（lcallback第108），将lua function的副本压入栈中</p>
-<p>61~65：将参数压栈</p>
-<p>67：调用lua function（即skynet.dispatch_message）</p>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-19">2023-09-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 538 字&nbsp;</div>
+        </div><div class="content" id="content"><h2 id="skynet-中-c-端绑定-lua-函数的做法" class="headerLink">
+    <a href="#skynet-%e4%b8%ad-c-%e7%ab%af%e7%bb%91%e5%ae%9a-lua-%e5%87%bd%e6%95%b0%e7%9a%84%e5%81%9a%e6%b3%95" class="header-mark"></a>skynet 中 c 端绑定 lua 函数的做法</h2><ul>
+<li>创建新的 userdata</li>
+<li>创建一个新 thread 对象，把 callback function 至于这个 thread 中</li>
+<li>把新 thread 绑定 userdata 的 uservalue 上（防止 gc）</li>
+<li>userdata 的 C 指针放到 C 端，用于 callback 调用</li>
+<li>callback function 放到新 thead 中而不是注册表中是因为这样做比从注册表中读会 callback function 要高效</li>
+<li>代码分析</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">122</span> <span class="k">static</span> <span class="kt">int</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">123</span> <span class="nf">lcallback</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">124</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">skynet_context</span> <span class="o">*</span> <span class="n">context</span> <span class="o">=</span> <span class="nf">lua_touserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="nf">lua_upvalueindex</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">125</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">forward</span> <span class="o">=</span> <span class="nf">lua_toboolean</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// 获取第二个参数
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">126</span> <span class="o">&gt;</span>   <span class="nf">luaL_checktype</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">LUA_TFUNCTION</span><span class="p">);</span>  <span class="c1">// 检查第一个参数是否是 lua function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">127</span> <span class="o">&gt;</span>   <span class="nf">lua_settop</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// 弹出除第一个参数外的所有参数，即 lua function 在 L 的栈底
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">128</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">callback_context</span> <span class="o">*</span> <span class="n">cb_ctx</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">callback_context</span> <span class="o">*</span><span class="p">)</span><span class="nf">lua_newuserdatauv</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">cb_ctx</span><span class="p">),</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// 创建 userdata callback_context 并压入到 L 的栈中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">129</span> <span class="o">&gt;</span>   <span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span> <span class="o">=</span> <span class="nf">lua_newthread</span><span class="p">(</span><span class="n">L</span><span class="p">);</span>  <span class="c1">// 创建一个新线程并压入 L 的栈中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">130</span> <span class="o">&gt;</span>   <span class="nf">lua_pushcfunction</span><span class="p">(</span><span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">,</span> <span class="n">traceback</span><span class="p">);</span> <span class="c1">// 将 c 函数 traceback 压入新线程的栈中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">131</span> <span class="o">&gt;</span>   <span class="nf">lua_setiuservalue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// 将新线程弹出并设置为 128 创建的 userdata 的 uservalue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">132</span> <span class="o">&gt;</span>   <span class="nf">lua_getfield</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">LUA_REGISTRYINDEX</span><span class="p">,</span> <span class="s">&#34;callback_context&#34;</span><span class="p">);</span> <span class="c1">// 将注册表下标为 &#34;callback_context&#34; 的值压入 L 的栈中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">133</span> <span class="o">&gt;</span>   <span class="nf">lua_setiuservalue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="c1">// 将上面压入的值设置为 128 创建的 userdata 的 uservalue
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">134</span> <span class="o">&gt;</span>   <span class="nf">lua_setfield</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">LUA_REGISTRYINDEX</span><span class="p">,</span> <span class="s">&#34;callback_context&#34;</span><span class="p">);</span> <span class="c1">// 将 128 创建的 userdata 设置为注册表下标为 &#34;callback_context&#34; 的值
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">135</span> <span class="o">&gt;</span>   <span class="nf">lua_xmove</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">cb_ctx</span><span class="o">-&gt;</span><span class="n">L</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// 将 userdata 从 L 中弹出并压入新线程中
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">136</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">137</span> <span class="o">&gt;</span>   <span class="nf">skynet_callback</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">cb_ctx</span><span class="p">,</span> <span class="p">(</span><span class="n">forward</span><span class="p">)</span><span class="o">?</span><span class="p">(</span><span class="n">_forward_pre</span><span class="p">)</span><span class="o">:</span><span class="p">(</span><span class="n">_cb_pre</span><span class="p">));</span> <span class="c1">// 将 _cb_pre/_forward_pre 设置为 context 的 callback，两种区别为是否自动释放 skynet msg 的空间
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="mi">138</span> <span class="o">&gt;</span>   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="mi">139</span> <span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>第132~133行把旧的 userdata 设置为新 userdata 的 uservalue，是因为在重新设置 callback 时，如果直接替换掉旧的 userdata 时，这只旧 userdata 就处于可被 gc 的状态，如果此时触发 gc 行为，将会导致当前正在被执行的 coroutine 和 cb_ctx 被回收掉，从而导致crash。具体如下：<a href="https://github.com/cloudwu/skynet/pull/1726" target="_blank" rel="noopener noreferrer">skynet callback导致的crash问题</a></li>
+<li><a href="https://blog.codingnow.com/2022/04/lua_binding_callback.html" target="_blank" rel="noopener noreferrer">Lua binding 中正确的 callback</a></li>
+</ul>
 </div>
 
         <div class="post-footer" id="post-footer">

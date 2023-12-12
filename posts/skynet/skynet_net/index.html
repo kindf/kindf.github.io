@@ -8,20 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
     <title>skynet的网络 - kindf</title><meta name="Description" content=""><meta property="og:title" content="skynet的网络" />
-<meta property="og:description" content="skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk" />
+<meta property="og:description" content="115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; skynet启动时会调用" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://kindf.github.io/posts/skynet/skynet_net/" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="http://example.org/posts/skynet/skynet_net/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-11-01T16:56:32+08:00" />
 <meta property="article:modified_time" content="2023-11-01T16:56:32+08:00" />
 
 <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="skynet的网络"/>
-<meta name="twitter:description" content="skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk"/>
+<meta name="twitter:description" content="115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; skynet启动时会调用"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="https://kindf.github.io/posts/skynet/skynet_net/" /><link rel="prev" href="https://kindf.github.io/posts/skynet/skynet_cb/" /><link rel="next" href="https://kindf.github.io/posts/skynet/skynet_timer/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/skynet/skynet_net/" /><link rel="prev" href="http://example.org/posts/skynet/skynet_cb/" /><link rel="next" href="http://example.org/posts/skynet/skynet_timer/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
@@ -32,9 +32,9 @@
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "https:\/\/kindf.github.io\/posts\/skynet\/skynet_net\/"
-        },"genre": "posts","wordcount":  2421 ,
-        "url": "https:\/\/kindf.github.io\/posts\/skynet\/skynet_net\/","datePublished": "2023-11-01T16:56:32+08:00","dateModified": "2023-11-01T16:56:32+08:00","publisher": {
+            "@id": "http:\/\/example.org\/posts\/skynet\/skynet_net\/"
+        },"genre": "posts","wordcount":  2411 ,
+        "url": "http:\/\/example.org\/posts\/skynet\/skynet_net\/","datePublished": "2023-11-01T16:56:32+08:00","dateModified": "2023-11-01T16:56:32+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
                         "@type": "Person",
@@ -115,11 +115,10 @@
 <main class="main">
             <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">skynet的网络</h1><div class="post-meta">
             <div class="post-meta-line">
-                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='https://kindf.github.io/authors/kindf'>kindf</a></span>
+                <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-01">2023-11-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2421 字&nbsp;</div>
-        </div><div class="content" id="content"><h3 id="skynet网络模块" class="headerLink">
-    <a href="#skynet%e7%bd%91%e7%bb%9c%e6%a8%a1%e5%9d%97" class="header-mark"></a>skynet网络模块</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"> <span class="mi">115</span> <span class="k">struct</span> <span class="n">socket_server</span> <span class="p">{</span>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-11-01">2023-11-01</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2411 字&nbsp;</div>
+        </div><div class="content" id="content"><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"> <span class="mi">115</span> <span class="k">struct</span> <span class="n">socket_server</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl"> <span class="mi">116</span>     <span class="k">volatile</span> <span class="kt">uint64_t</span> <span class="n">time</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl"> <span class="mi">117</span>     <span class="kt">int</span> <span class="n">reserve_fd</span><span class="p">;</span> <span class="c1">// for EMFILE
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span> <span class="mi">118</span>     <span class="kt">int</span> <span class="n">recvctrl_fd</span><span class="p">;</span>

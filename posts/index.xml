@@ -1,67 +1,67 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>所有文章 - kindf</title>
-        <link>https://kindf.github.io/posts/</link>
+        <link>http://example.org/posts/</link>
         <description>所有文章 | kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="https://kindf.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
     <title>skynet的定时器</title>
-    <link>https://kindf.github.io/posts/skynet/skynet_timer/</link>
+    <link>http://example.org/posts/skynet/skynet_timer/</link>
     <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_timer/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_timer/</guid>
     <description><![CDATA[主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;]]></description>
 </item><item>
     <title>skynet的网络</title>
-    <link>https://kindf.github.io/posts/skynet/skynet_net/</link>
+    <link>http://example.org/posts/skynet/skynet_net/</link>
     <pubDate>Wed, 01 Nov 2023 16:56:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_net/</guid>
-    <description><![CDATA[skynet网络模块 115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; sk]]></description>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_net/</guid>
+    <description><![CDATA[115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; skynet启动时会调用]]></description>
 </item><item>
     <title>skynet的callback</title>
-    <link>https://kindf.github.io/posts/skynet/skynet_cb/</link>
+    <link>http://example.org/posts/skynet/skynet_cb/</link>
     <pubDate>Tue, 19 Sep 2023 16:44:37 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/skynet/skynet_cb/</guid>
-    <description><![CDATA[skynet的callback云风的解释[https://blog.codingnow.com/2022/04/lua_binding_ca]]></description>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_cb/</guid>
+    <description><![CDATA[skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新]]></description>
 </item><item>
     <title>ELF文件</title>
-    <link>https://kindf.github.io/posts/other/elf%E6%96%87%E4%BB%B6/</link>
+    <link>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</link>
     <pubDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/elf%E6%96%87%E4%BB%B6/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</guid>
     <description><![CDATA[段表 保存ELF文件各段的基本属性的结构，记录包括段名，段长度，在文件中的偏移量以及读写权限和段的其他属性 代码段 程序源代码编译后的机器指令存放]]></description>
 </item><item>
     <title>Git基本操作</title>
-    <link>https://kindf.github.io/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+    <link>http://example.org/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Wed, 27 Oct 2021 22:21:54 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[Git配置 设置名称： git config &ndash;global user.name &ldquo;名称&rdquo; 设置邮箱： git config &ndash;global user.email &ldquo;邮箱&rdquo; 查看设置： git config &ndash;global &ndash;list Git分支操]]></description>
 </item><item>
     <title>Redis主从库数据同步</title>
-    <link>https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</link>
+    <link>http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</link>
     <pubDate>Tue, 10 Aug 2021 23:43:51 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/redis/redis%E4%B8%BB%E4%BB%8E%E5%BA%93%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5/</guid>
     <description><![CDATA[redis主从库模式 redis高可靠性 高可靠性包含两层含义：数据尽量少丢失，服务尽量少中断 前者使用AOF和RDB可以保证 后者使用主从库模式保]]></description>
 </item><item>
     <title>Redis持久化</title>
-    <link>https://kindf.github.io/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
+    <link>http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</link>
     <pubDate>Mon, 26 Jul 2021 23:02:25 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
     <description><![CDATA[AOF日志 AOF日志实现 AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回 AOF日志采用先执⾏命令再记⽇志的方式（为避]]></description>
 </item><item>
     <title>CentOS8安装json C库</title>
-    <link>https://kindf.github.io/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</link>
+    <link>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</link>
     <pubDate>Tue, 26 Jan 2021 23:02:34 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</guid>
     <description><![CDATA[Cenos8安装json-c库 先把文件从https://github.com/json-c/json-c克隆到本地目录 进入json-c目录分]]></description>
 </item><item>
     <title>GDB基本操作</title>
-    <link>https://kindf.github.io/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+    <link>http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Fri, 15 Jan 2021 22:29:14 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[命令 含义/用法 start 开始调试,停在第一行代码处 (gdb) start l(list) 查看源代码 (gdb) l &lt;number/function&gt; b(breakpoint) 设置断点 (gdb) b &lt;行号/函数名&gt;b &hellip; if i == 3：条件断点 info info brea]]></description>
 </item><item>
     <title>Io模型</title>
-    <link>https://kindf.github.io/posts/other/io%E6%A8%A1%E5%9E%8B/</link>
+    <link>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</link>
     <pubDate>Thu, 03 Sep 2020 23:55:46 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/io%E6%A8%A1%E5%9E%8B/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</guid>
     <description><![CDATA[一、阻塞IO（blocking I/O） io两个阶段： 等待数据准备 将数据从内核拷贝到进程中 调用recvfrom后调用进程/线程阻塞直到内核把数]]></description>
 </item></channel>
 </rss>

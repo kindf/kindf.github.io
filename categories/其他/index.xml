@@ -1,43 +1,43 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>其他 - 分类 - kindf</title>
-        <link>https://kindf.github.io/categories/%E5%85%B6%E4%BB%96/</link>
+        <link>http://example.org/categories/%E5%85%B6%E4%BB%96/</link>
         <description>其他 - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</lastBuildDate><atom:link href="https://kindf.github.io/categories/%E5%85%B6%E4%BB%96/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E5%85%B6%E4%BB%96/" rel="self" type="application/rss+xml" /><item>
     <title>ELF文件</title>
-    <link>https://kindf.github.io/posts/other/elf%E6%96%87%E4%BB%B6/</link>
+    <link>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</link>
     <pubDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/elf%E6%96%87%E4%BB%B6/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</guid>
     <description><![CDATA[段表 保存ELF文件各段的基本属性的结构，记录包括段名，段长度，在文件中的偏移量以及读写权限和段的其他属性 代码段 程序源代码编译后的机器指令存放]]></description>
 </item><item>
     <title>Git基本操作</title>
-    <link>https://kindf.github.io/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+    <link>http://example.org/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Wed, 27 Oct 2021 22:21:54 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[Git配置 设置名称： git config &ndash;global user.name &ldquo;名称&rdquo; 设置邮箱： git config &ndash;global user.email &ldquo;邮箱&rdquo; 查看设置： git config &ndash;global &ndash;list Git分支操]]></description>
 </item><item>
     <title>CentOS8安装json C库</title>
-    <link>https://kindf.github.io/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</link>
+    <link>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</link>
     <pubDate>Tue, 26 Jan 2021 23:02:34 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</guid>
     <description><![CDATA[Cenos8安装json-c库 先把文件从https://github.com/json-c/json-c克隆到本地目录 进入json-c目录分]]></description>
 </item><item>
     <title>GDB基本操作</title>
-    <link>https://kindf.github.io/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
+    <link>http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</link>
     <pubDate>Fri, 15 Jan 2021 22:29:14 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[命令 含义/用法 start 开始调试,停在第一行代码处 (gdb) start l(list) 查看源代码 (gdb) l &lt;number/function&gt; b(breakpoint) 设置断点 (gdb) b &lt;行号/函数名&gt;b &hellip; if i == 3：条件断点 info info brea]]></description>
 </item><item>
     <title>Io模型</title>
-    <link>https://kindf.github.io/posts/other/io%E6%A8%A1%E5%9E%8B/</link>
+    <link>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</link>
     <pubDate>Thu, 03 Sep 2020 23:55:46 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/io%E6%A8%A1%E5%9E%8B/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</guid>
     <description><![CDATA[一、阻塞IO（blocking I/O） io两个阶段： 等待数据准备 将数据从内核拷贝到进程中 调用recvfrom后调用进程/线程阻塞直到内核把数]]></description>
 </item><item>
     <title>进程间通讯</title>
-    <link>https://kindf.github.io/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</link>
+    <link>http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</link>
     <pubDate>Fri, 03 Jul 2020 23:56:42 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>https://kindf.github.io/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/</guid>
     <description><![CDATA[管道(内核管理的一个缓冲区) 匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通]]></description>
 </item></channel>
 </rss>
