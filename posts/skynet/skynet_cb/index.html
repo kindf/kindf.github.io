@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
     <title>skynet的callback - kindf</title><meta name="Description" content=""><meta property="og:title" content="skynet的callback" />
-<meta property="og:description" content="skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新" />
+<meta property="og:description" content="skynet 中 c 端绑定 lua 函数的做法 简述 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/posts/skynet/skynet_cb/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2023-09-19T16:44:37+08:00" />
 <meta property="article:modified_time" content="2023-09-19T16:44:37+08:00" />
 
 <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="skynet的callback"/>
-<meta name="twitter:description" content="skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新"/>
+<meta name="twitter:description" content="skynet 中 c 端绑定 lua 函数的做法 简述 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
@@ -33,7 +33,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "http:\/\/example.org\/posts\/skynet\/skynet_cb\/"
-        },"genre": "posts","wordcount":  538 ,
+        },"genre": "posts","wordcount":  540 ,
         "url": "http:\/\/example.org\/posts\/skynet\/skynet_cb\/","datePublished": "2023-09-19T16:44:37+08:00","dateModified": "2023-09-19T16:44:37+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
@@ -117,17 +117,18 @@
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/skynet%E7%9B%B8%E5%85%B3/"><i class="far fa-folder fa-fw"></i>skynet相关</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-19">2023-09-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 538 字&nbsp;</div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2023-09-19">2023-09-19</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 540 字&nbsp;</div>
         </div><div class="content" id="content"><h2 id="skynet-中-c-端绑定-lua-函数的做法" class="headerLink">
-    <a href="#skynet-%e4%b8%ad-c-%e7%ab%af%e7%bb%91%e5%ae%9a-lua-%e5%87%bd%e6%95%b0%e7%9a%84%e5%81%9a%e6%b3%95" class="header-mark"></a>skynet 中 c 端绑定 lua 函数的做法</h2><ul>
+    <a href="#skynet-%e4%b8%ad-c-%e7%ab%af%e7%bb%91%e5%ae%9a-lua-%e5%87%bd%e6%95%b0%e7%9a%84%e5%81%9a%e6%b3%95" class="header-mark"></a>skynet 中 c 端绑定 lua 函数的做法</h2><h4 id="简述" class="headerLink">
+    <a href="#%e7%ae%80%e8%bf%b0" class="header-mark"></a>简述</h4><ul>
 <li>创建新的 userdata</li>
 <li>创建一个新 thread 对象，把 callback function 至于这个 thread 中</li>
 <li>把新 thread 绑定 userdata 的 uservalue 上（防止 gc）</li>
 <li>userdata 的 C 指针放到 C 端，用于 callback 调用</li>
 <li>callback function 放到新 thead 中而不是注册表中是因为这样做比从注册表中读会 callback function 要高效</li>
-<li>代码分析</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">122</span> <span class="k">static</span> <span class="kt">int</span>
+<h4 id="代码分析" class="headerLink">
+    <a href="#%e4%bb%a3%e7%a0%81%e5%88%86%e6%9e%90" class="header-mark"></a>代码分析</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">  <span class="mi">122</span> <span class="k">static</span> <span class="kt">int</span>
 </span></span><span class="line"><span class="cl">  <span class="mi">123</span> <span class="nf">lcallback</span><span class="p">(</span><span class="n">lua_State</span> <span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="mi">124</span> <span class="o">&gt;</span>   <span class="k">struct</span> <span class="n">skynet_context</span> <span class="o">*</span> <span class="n">context</span> <span class="o">=</span> <span class="nf">lua_touserdata</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="nf">lua_upvalueindex</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">  <span class="mi">125</span> <span class="o">&gt;</span>   <span class="kt">int</span> <span class="n">forward</span> <span class="o">=</span> <span class="nf">lua_toboolean</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>  <span class="c1">// 获取第二个参数

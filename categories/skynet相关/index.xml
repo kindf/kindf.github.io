@@ -8,7 +8,7 @@
     <link>http://example.org/posts/skynet/skynet_timer/</link>
     <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_timer/</guid>
-    <description><![CDATA[主要结构 17 #define TIME_NEAR_SHIFT 8 18 #define TIME_NEAR (1 &lt;&lt; TIME_NEAR_SHIFT) 19 #define TIME_LEVEL_SHIFT 6 20 #define TIME_LEVEL (1 &lt;&lt; TIME_LEVEL_SHIFT) 21 #define TIME_NEAR_MASK (TIME_NEAR-1) 22 #define TIME_LEVEL_MASK (TIME_LEVEL-1) 23 24 struct timer_event { 25 &gt; uint32_t handle; 26 &gt; int session; 27 }; 28 29 struct timer_node { 30 &gt; struct timer_node *next; 31 &gt; uint32_t expire; 32 }; 33 34 struct link_list { 35 &gt;]]></description>
+    <description><![CDATA[简析 skyent 用 5 个链表数组来存储定时事件，分别是 near[256] 和 t[4]，其中 near 数组用来存放即将到期的定时事件，t[0] ~ t[3] 数组分别存放不同时间段的定时事件 插]]></description>
 </item><item>
     <title>skynet的网络</title>
     <link>http://example.org/posts/skynet/skynet_net/</link>
@@ -20,6 +20,6 @@
     <link>http://example.org/posts/skynet/skynet_cb/</link>
     <pubDate>Tue, 19 Sep 2023 16:44:37 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_cb/</guid>
-    <description><![CDATA[skynet 中 c 端绑定 lua 函数的做法 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放到新]]></description>
+    <description><![CDATA[skynet 中 c 端绑定 lua 函数的做法 简述 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放]]></description>
 </item></channel>
 </rss>
