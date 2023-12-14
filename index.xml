@@ -16,7 +16,7 @@
     <link>http://example.org/posts/skynet/skynet_net/</link>
     <pubDate>Wed, 01 Nov 2023 16:56:32 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_net/</guid>
-    <description><![CDATA[115 struct socket_server { 116 volatile uint64_t time; 117 int reserve_fd; // for EMFILE 118 int recvctrl_fd; 119 int sendctrl_fd; 120 int checkctrl; 121 poll_fd event_fd; 122 ATOM_INT alloc_id; 123 int event_n; 124 int event_index; 125 struct socket_object_interface soi; 126 struct event ev[MAX_EVENT]; 127 struct socket slot[MAX_SOCKET]; 128 char buffer[MAX_INFO]; 129 uint8_t udpbuffer[MAX_UDP_PACKAGE]; 130 fd_set rfds; 131 }; skynet启动时会调用]]></description>
+    <description><![CDATA[简析 skynet 创建专门的 socket 线程用于处理 socket 相关的逻辑。skynet 将 socket 相关的操作提炼出 lua 接口供用于在 lua 层操作 socket lua 层 与 socket 层并不在同一个线程内，lua 层向]]></description>
 </item><item>
     <title>skynet的callback</title>
     <link>http://example.org/posts/skynet/skynet_cb/</link>
