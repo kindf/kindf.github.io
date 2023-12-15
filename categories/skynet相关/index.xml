@@ -3,7 +3,13 @@
         <title>skynet相关 - 分类 - kindf</title>
         <link>http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/</link>
         <description>skynet相关 - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Dec 2023 20:23:46 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 16 Dec 2023 02:31:17 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/skynet%E7%9B%B8%E5%85%B3/" rel="self" type="application/rss+xml" /><item>
+    <title>skynet的服务</title>
+    <link>http://example.org/posts/skynet_cxt/</link>
+    <pubDate>Sat, 16 Dec 2023 02:31:17 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet_cxt/</guid>
+    <description><![CDATA[简述 skynet 可以根据动态库（具有一定的规范）动态的创建出服务 skynet启用多线程处理服务处理消息 服务并不会主动执行逻辑，只有当服务接受到消息时才]]></description>
+</item><item>
     <title>skynet的服务管理</title>
     <link>http://example.org/posts/skynet/skynet_hs/</link>
     <pubDate>Fri, 15 Dec 2023 20:23:46 &#43;0800</pubDate><author>
