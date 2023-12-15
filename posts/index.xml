@@ -3,7 +3,13 @@
         <title>所有文章 - kindf</title>
         <link>http://example.org/posts/</link>
         <description>所有文章 | kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Fri, 15 Dec 2023 20:23:46 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>skynet的服务管理</title>
+    <link>http://example.org/posts/skynet/skynet_hs/</link>
+    <pubDate>Fri, 15 Dec 2023 20:23:46 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_hs/</guid>
+    <description><![CDATA[简析 skynet 是一个 actor 模型的框架，actor 就是 skynet 服务，对应代码中的结构体 skynet_context skynet 中存在若干个 skynet_context ，这些对象通过 handle_storage 来进行管理，根据 handle_storage 可以进行增删查操作 服务]]></description>
+</item><item>
     <title>skynet的定时器</title>
     <link>http://example.org/posts/skynet/skynet_timer/</link>
     <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
@@ -57,11 +63,5 @@
     <pubDate>Fri, 15 Jan 2021 22:29:14 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/gdb%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</guid>
     <description><![CDATA[命令 含义/用法 start 开始调试,停在第一行代码处 (gdb) start l(list) 查看源代码 (gdb) l &lt;number/function&gt; b(breakpoint) 设置断点 (gdb) b &lt;行号/函数名&gt;b &hellip; if i == 3：条件断点 info info brea]]></description>
-</item><item>
-    <title>Io模型</title>
-    <link>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</link>
-    <pubDate>Thu, 03 Sep 2020 23:55:46 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/</guid>
-    <description><![CDATA[一、阻塞IO（blocking I/O） io两个阶段： 等待数据准备 将数据从内核拷贝到进程中 调用recvfrom后调用进程/线程阻塞直到内核把数]]></description>
 </item></channel>
 </rss>

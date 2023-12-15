@@ -176,7 +176,7 @@
 </span></span><span class="line"><span class="cl">  <span class="mi">865</span> <span class="o">&gt;</span>   <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">  <span class="mi">866</span> <span class="p">}</span>
 </span></span></code></pre></div><ul>
-<li>socket 操作为 l2 注册的 lua 函数，这些函数最后都会调用 send_request 函数</li>
+<li>socket 操作为 l2 注册的 c 函数，这些函数最后都会调用 send_request 函数</li>
 </ul>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="c1">// skynet-src/socket_server.c
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="mi">1786</span> <span class="k">static</span> <span class="kt">void</span>
