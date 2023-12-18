@@ -3,7 +3,13 @@
         <title>其他 - 分类 - kindf</title>
         <link>http://example.org/categories/%E5%85%B6%E4%BB%96/</link>
         <description>其他 - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E5%85%B6%E4%BB%96/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 18 Dec 2023 14:20:41 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E5%85%B6%E4%BB%96/" rel="self" type="application/rss+xml" /><item>
+    <title>Lua的GC</title>
+    <link>http://example.org/posts/other/lua_gc/</link>
+    <pubDate>Mon, 18 Dec 2023 14:20:41 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/lua_gc/</guid>
+    <description><![CDATA[主要的数据结构 gobal_State 的成员变量 GCObject **rootgc：存放待 GC 对象的链表，所有对象创建之后都会放入该链表中 GCObject *gray：存放标记为灰色的 GC 对象的链表]]></description>
+</item><item>
     <title>ELF文件</title>
     <link>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</link>
     <pubDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</pubDate><author>

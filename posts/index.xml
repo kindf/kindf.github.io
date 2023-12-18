@@ -3,7 +3,13 @@
         <title>所有文章 - kindf</title>
         <link>http://example.org/posts/</link>
         <description>所有文章 | kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sat, 16 Dec 2023 02:31:17 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Mon, 18 Dec 2023 14:20:41 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Lua的GC</title>
+    <link>http://example.org/posts/other/lua_gc/</link>
+    <pubDate>Mon, 18 Dec 2023 14:20:41 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/lua_gc/</guid>
+    <description><![CDATA[主要的数据结构 gobal_State 的成员变量 GCObject **rootgc：存放待 GC 对象的链表，所有对象创建之后都会放入该链表中 GCObject *gray：存放标记为灰色的 GC 对象的链表]]></description>
+</item><item>
     <title>skynet的服务</title>
     <link>http://example.org/posts/skynet_cxt/</link>
     <pubDate>Sat, 16 Dec 2023 02:31:17 &#43;0800</pubDate><author>
@@ -57,11 +63,5 @@
     <pubDate>Mon, 26 Jul 2021 23:02:25 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/redis/redis%E6%8C%81%E4%B9%85%E5%8C%96/</guid>
     <description><![CDATA[AOF日志 AOF日志实现 AOF日志记录的是redis收到的操作命令，以文本形式保存，由主线程写回 AOF日志采用先执⾏命令再记⽇志的方式（为避]]></description>
-</item><item>
-    <title>CentOS8安装json C库</title>
-    <link>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</link>
-    <pubDate>Tue, 26 Jan 2021 23:02:34 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/centos8%E5%AE%89%E8%A3%85json-c%E5%BA%93/</guid>
-    <description><![CDATA[Cenos8安装json-c库 先把文件从https://github.com/json-c/json-c克隆到本地目录 进入json-c目录分]]></description>
 </item></channel>
 </rss>
