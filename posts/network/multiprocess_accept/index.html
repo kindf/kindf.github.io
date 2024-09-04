@@ -7,34 +7,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>进程间通讯 - kindf</title><meta name="Description" content=""><meta property="og:title" content="进程间通讯" />
-<meta property="og:description" content="管道(内核管理的一个缓冲区) 匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通" />
+    <title>多进程 accept - kindf</title><meta name="Description" content=""><meta property="og:title" content="多进程 accept" />
+<meta property="og:description" content="多进程网络编程中子进程在 fork 后应该先做什么处理再进行 fd 读写处理pid_t pid; int listenfd, connfd; listenfd = Socket(...); Bind(listenfd, ...); Listen(listenfd, LISTENQ); for(;;) { connfd = Accept(listenfd, ...); if( (pid = Fork()) == 0) { Close(listenfd); doit(connfd); Close(connfd); exit(0); } Close(connfd); } 以上为经" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2020-07-03T23:56:42+08:00" />
-<meta property="article:modified_time" content="2020-07-03T23:56:42+08:00" />
+<meta property="og:url" content="http://example.org/posts/network/multiprocess_accept/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-04T20:41:05+08:00" />
+<meta property="article:modified_time" content="2024-09-04T20:41:05+08:00" />
 
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="进程间通讯"/>
-<meta name="twitter:description" content="管道(内核管理的一个缓冲区) 匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通"/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="多进程 accept"/>
+<meta name="twitter:description" content="多进程网络编程中子进程在 fork 后应该先做什么处理再进行 fd 读写处理pid_t pid; int listenfd, connfd; listenfd = Socket(...); Bind(listenfd, ...); Listen(listenfd, LISTENQ); for(;;) { connfd = Accept(listenfd, ...); if( (pid = Fork()) == 0) { Close(listenfd); doit(connfd); Close(connfd); exit(0); } Close(connfd); } 以上为经"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/other/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF/" /><link rel="next" href="http://example.org/posts/other/io%E6%A8%A1%E5%9E%8B/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/network/multiprocess_accept/" /><link rel="prev" href="http://example.org/posts/network/socket_close/" /><link rel="next" href="http://example.org/posts/network/socket_connect/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "进程间通讯",
+        "headline": "多进程 accept",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/example.org\/posts\/other\/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF\/"
-        },"genre": "posts","wordcount":  812 ,
-        "url": "http:\/\/example.org\/posts\/other\/%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E8%AE%AF\/","datePublished": "2020-07-03T23:56:42+08:00","dateModified": "2020-07-03T23:56:42+08:00","publisher": {
+            "@id": "http:\/\/example.org\/posts\/network\/multiprocess_accept\/"
+        },"genre": "posts","wordcount":  315 ,
+        "url": "http:\/\/example.org\/posts\/network\/multiprocess_accept\/","datePublished": "2024-09-04T20:41:05+08:00","dateModified": "2024-09-04T20:41:05+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
                         "@type": "Person",
@@ -113,64 +113,46 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">进程间通讯</h1><div class="post-meta">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">多进程 accept</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
-                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E5%85%B6%E4%BB%96/"><i class="far fa-folder fa-fw"></i>其他</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-07-03">2020-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 812 字&nbsp;</div>
-        </div><div class="content" id="content"><ul>
+                </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><i class="far fa-folder fa-fw"></i>网络编程</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-09-04">2024-09-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 315 字&nbsp;</div>
+        </div><div class="content" id="content"><h4 id="多进程网络编程中子进程在-fork-后应该先做什么处理再进行-fd-读写处理" class="headerLink">
+    <a href="#%e5%a4%9a%e8%bf%9b%e7%a8%8b%e7%bd%91%e7%bb%9c%e7%bc%96%e7%a8%8b%e4%b8%ad%e5%ad%90%e8%bf%9b%e7%a8%8b%e5%9c%a8-fork-%e5%90%8e%e5%ba%94%e8%af%a5%e5%85%88%e5%81%9a%e4%bb%80%e4%b9%88%e5%a4%84%e7%90%86%e5%86%8d%e8%bf%9b%e8%a1%8c-fd-%e8%af%bb%e5%86%99%e5%a4%84%e7%90%86" class="header-mark"></a>多进程网络编程中子进程在 fork 后应该先做什么处理再进行 fd 读写处理</h4><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">pid_t</span> <span class="n">pid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">listenfd</span><span class="p">,</span> <span class="n">connfd</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">listenfd</span> <span class="o">=</span> <span class="nf">Socket</span><span class="p">(...);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nf">Bind</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">...);</span>
+</span></span><span class="line"><span class="cl"><span class="nf">Listen</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="n">LISTENQ</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span><span class="p">(;;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">connfd</span> <span class="o">=</span> <span class="nf">Accept</span><span class="p">(</span><span class="n">listenfd</span><span class="p">,</span> <span class="p">...);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">pid</span> <span class="o">=</span> <span class="nf">Fork</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">Close</span><span class="p">(</span><span class="n">listenfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">doit</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">Close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">Close</span><span class="p">(</span><span class="n">connfd</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
 <li>
-<h1 id="管道内核管理的一个缓冲区" class="headerLink">
-    <a href="#%e7%ae%a1%e9%81%93%e5%86%85%e6%a0%b8%e7%ae%a1%e7%90%86%e7%9a%84%e4%b8%80%e4%b8%aa%e7%bc%93%e5%86%b2%e5%8c%ba" class="header-mark"></a>管道(内核管理的一个缓冲区)</h1><ul>
-<li>匿名管道：通常用于父子进程的通信(通过fork复制父进程的信息，关闭父进程的读（或写）通道和子进程的写（或读）通道从而形成单向通信的通道)</li>
-<li>有名管道：通常用于无亲缘关系进程间的通信</li>
-<li>四种读写情况
+<p>以上为经典并发服务器轮廓（节选至UNIX 网络变成卷1）</p>
 <ul>
-<li>读端不读（fd[0]未关闭），写端一直写 ：直到管道写满数据后，再次write会导致阻塞，直到管道有空位置才写去数据并返回</li>
-<li>写端不写（fd[1]未关闭），但是读端一直读（写端不关闭）：管道为空时阻塞读端，直到管道有数据时才读数据并返回（是否阻塞取决于写端计数器是否大于0&hellip;.）</li>
-<li>读端一直读，且fd[0]保持打开，而写端写了一部分数据不写了，并且关闭fd[1]：读取管道所有数据后返回0</li>
-<li>读端读了一部分数据，不读了且关闭fd[0]，写端一直在写且f[1]还保持打开状态：一旦读端关闭而进程write时会接受信号SIGPIPE，通常导致进程异常终止</li>
+<li>对于子线程来说不需要关注父进程的 listenfd，所以 fork 后应该先 close listenfd</li>
+<li>新连接由子进程提供服务，所以父进程再 fork 后可以 close connfd</li>
 </ul>
 </li>
-<li>局限性
+<li>
+<p>调用 close 是否会关闭 socket</p>
 <ul>
-<li>只支持单向数据流</li>
-<li>缓冲区有限，管道只存在于主存中</li>
-<li>所传送的是无格式字节流</li>
-<li>效率低下（写数据需要读端读取后才返回）</li>
-<li>需要注意同步问题？(自带有同步机制)</li>
-<li>有名管道：长期存于系统中，使用不当容易出错</li>
-</ul>
-</li>
+<li>实际上调用 close 只是导致相应的描述符引用计数减一，套接字真正的清理和资源释放发生需要其引用计数到达 0 时才发生</li>
 </ul>
 </li>
 <li>
-<h1 id="消息队列" class="headerLink">
-    <a href="#%e6%b6%88%e6%81%af%e9%98%9f%e5%88%97" class="header-mark"></a>消息队列</h1><ul>
-<li>实际上就是信息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</li>
-<li>信息的传递经过四次信息复制：写端-&gt;内核 内核-&gt;读端(消息队列中信息的复制需要额外消耗CPU的时间．不适宜于信息量大或操作频繁的场合)</li>
-<li>消息队列克服了信号传递信息少,管道只能承载无格式字节流以及缓冲区大小受限等特点</li>
-<li>可以实现任意进程间的通信，并通过系统调用函数来实现消息发送和接收之间的同步，无需考虑同步问题，方便</li>
-</ul>
-</li>
-<li>
-<h1 id="共享内存" class="headerLink">
-    <a href="#%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98" class="header-mark"></a>共享内存</h1><ul>
-<li>内存共享机制：将进程的虚拟地址空间映射到相同的物理内存中</li>
-<li>该做法会引起进程的内存竞争问题</li>
-<li>共享内存是最快的IPC(进程间通信)方式</li>
-</ul>
-</li>
-<li>
-<h1 id="信号量" class="headerLink">
-    <a href="#%e4%bf%a1%e5%8f%b7%e9%87%8f" class="header-mark"></a>信号量</h1><ul>
-<li>用于实现进程间的互斥同步问题</li>
-</ul>
-</li>
-<li>
-<h1 id="socket" class="headerLink">
-    <a href="#socket" class="header-mark"></a>socket</h1><ul>
-<li>不同主机间进程通信的主要方法</li>
+<p>父进程为什么需要 close connfd</p>
+<ul>
+<li>若不关闭，fork 结束后，connfd 的引用计数为2，子进程结束后，connfd 引用计数由 2递减为 1，（a）这将导致 fd 一直存在，耗尽父进程的可用文件描述符而且（b）连接会一直存在占用资源</li>
 </ul>
 </li>
 </ul>
@@ -180,7 +162,7 @@
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2020-07-03</span>
+                <span>更新于 2024-09-04</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -197,8 +179,8 @@
         </section>
     </div>
 
-    <div class="post-nav">
-            <a href="/posts/other/io%E6%A8%A1%E5%9E%8B/" class="next" rel="next" title="Io模型">Io模型<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/network/socket_close/" class="prev" rel="prev" title="socket 关闭"><i class="fas fa-angle-left fa-fw"></i>socket 关闭</a>
+            <a href="/posts/network/socket_connect/" class="next" rel="next" title="socket 连接">socket 连接<i class="fas fa-angle-right fa-fw"></i></a></div>
 </div>
 </article></div>
         </main><footer class="footer">

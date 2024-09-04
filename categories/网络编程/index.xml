@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>网络编程 - 分类 - kindf</title>
+        <link>http://example.org/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+        <description>网络编程 - 分类 - kindf</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Sep 2024 23:30:25 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="self" type="application/rss+xml" /><item>
+    <title>socket 连接</title>
+    <link>http://example.org/posts/network/socket_connect/</link>
+    <pubDate>Wed, 04 Sep 2024 23:30:25 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/network/socket_connect/</guid>
+    <description><![CDATA[三次握手 各个 socket 函数 connect 函数： 调用 connect 将发起第一次握手，阻塞套接字 connect 会在第二次握完成时返回成功 connect 失败的套接字不可再用，必须关闭 常见返回错误： ETI]]></description>
+</item><item>
+    <title>多进程 accept</title>
+    <link>http://example.org/posts/network/multiprocess_accept/</link>
+    <pubDate>Wed, 04 Sep 2024 20:41:05 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/network/multiprocess_accept/</guid>
+    <description><![CDATA[多进程网络编程中子进程在 fork 后应该先做什么处理再进行 fd 读写处理pid_t pid; int listenfd, connfd; listenfd = Socket(...); Bind(listenfd, ...); Listen(listenfd, LISTENQ); for(;;) { connfd = Accept(listenfd, ...); if( (pid = Fork()) == 0) { Close(listenfd); doit(connfd); Close(connfd); exit(0); } Close(connfd); } 以上为经]]></description>
+</item><item>
+    <title>socket 关闭</title>
+    <link>http://example.org/posts/network/socket_close/</link>
+    <pubDate>Tue, 03 Sep 2024 23:39:50 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/network/socket_close/</guid>
+    <description><![CDATA[四次挥手 客户端主动发起连接，发送 FIN 包 服务端接收到 FIN 包传递给应用程序 服务端应用程序接收到 FIN 包后关闭连接（TCP 向对端发送 FIN） 客户端接收到 FIN]]></description>
+</item></channel>
+</rss>
