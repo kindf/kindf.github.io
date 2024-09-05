@@ -1,1 +1,1 @@
-[https://kindf.github.io/](https://kindf.github.io/)
+[博客入口](https://kindf.github.io/)
