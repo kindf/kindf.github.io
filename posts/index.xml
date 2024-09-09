@@ -3,7 +3,19 @@
         <title>所有文章 - kindf</title>
         <link>http://example.org/posts/</link>
         <description>所有文章 | kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Wed, 04 Sep 2024 23:30:25 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>游戏邮件系统</title>
+    <link>http://example.org/posts/server/mail/</link>
+    <pubDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/mail/</guid>
+    <description><![CDATA[功能需求 单人邮件：对特定玩家发送邮件（如后台补偿邮件，背包空间不足道具由邮件发送等） 多人邮件：对一批玩家发送邮件（如排行榜奖励邮件，公会奖励]]></description>
+</item><item>
+    <title>游戏聊天</title>
+    <link>http://example.org/posts/server/chat_server/</link>
+    <pubDate>Fri, 06 Sep 2024 23:41:41 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/chat_server/</guid>
+    <description><![CDATA[游戏聊天实现 聊天功能基本需求 支持玩家与玩家私聊，保存私聊数据 支持多个频道聊天（如队伍频道，公会频道，世界频道，系统频道） 支持敏感词过滤 游戏聊]]></description>
+</item><item>
     <title>socket 连接</title>
     <link>http://example.org/posts/network/socket_connect/</link>
     <pubDate>Wed, 04 Sep 2024 23:30:25 &#43;0800</pubDate><author>
@@ -15,6 +27,12 @@
     <pubDate>Wed, 04 Sep 2024 20:41:05 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/network/multiprocess_accept/</guid>
     <description><![CDATA[多进程网络编程中子进程在 fork 后应该先做什么处理再进行 fd 读写处理pid_t pid; int listenfd, connfd; listenfd = Socket(...); Bind(listenfd, ...); Listen(listenfd, LISTENQ); for(;;) { connfd = Accept(listenfd, ...); if( (pid = Fork()) == 0) { Close(listenfd); doit(connfd); Close(connfd); exit(0); } Close(connfd); } 以上为经]]></description>
+</item><item>
+    <title>基于 skynet 的卡牌游戏服务器框架</title>
+    <link>http://example.org/posts/server/server_frame/</link>
+    <pubDate>Wed, 04 Sep 2024 15:37:04 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/server_frame/</guid>
+    <description><![CDATA[框架示意图 各个进程及其作用 main 进程：游戏逻辑进程 chat 进程：聊天进程，和 main 进程一一对应 fight 进程：战斗进程，和 main 进程一一对应 record 进程：日志管理进程，和 main]]></description>
 </item><item>
     <title>socket 关闭</title>
     <link>http://example.org/posts/network/socket_close/</link>
@@ -45,23 +63,5 @@
     <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
                         <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_timer/</guid>
     <description><![CDATA[简析 skyent 用 5 个链表数组来存储定时事件，分别是 near[256] 和 t[4]，其中 near 数组用来存放即将到期的定时事件，t[0] ~ t[3] 数组分别存放不同时间段的定时事件 插]]></description>
-</item><item>
-    <title>skynet的网络</title>
-    <link>http://example.org/posts/skynet/skynet_net/</link>
-    <pubDate>Wed, 01 Nov 2023 16:56:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_net/</guid>
-    <description><![CDATA[简析 skynet 创建专门的 socket 线程用于处理 socket 相关的逻辑。skynet 将 socket 相关的操作提炼出 lua 接口供用于在 lua 层操作 socket lua 层 与 socket 层并不在同一个线程内，lua 层向]]></description>
-</item><item>
-    <title>skynet的callback</title>
-    <link>http://example.org/posts/skynet/skynet_cb/</link>
-    <pubDate>Tue, 19 Sep 2023 16:44:37 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_cb/</guid>
-    <description><![CDATA[skynet 中 c 端绑定 lua 函数的做法 简述 创建新的 userdata 创建一个新 thread 对象，把 callback function 至于这个 thread 中 把新 thread 绑定 userdata 的 uservalue 上（防止 gc） userdata 的 C 指针放到 C 端，用于 callback 调用 callback function 放]]></description>
-</item><item>
-    <title>ELF文件</title>
-    <link>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</link>
-    <pubDate>Mon, 15 Nov 2021 23:27:07 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/other/elf%E6%96%87%E4%BB%B6/</guid>
-    <description><![CDATA[段表 保存ELF文件各段的基本属性的结构，记录包括段名，段长度，在文件中的偏移量以及读写权限和段的其他属性 代码段 程序源代码编译后的机器指令存放]]></description>
 </item></channel>
 </rss>

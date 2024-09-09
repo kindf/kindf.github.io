@@ -1,0 +1,25 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>游戏服务器 - 分类 - kindf</title>
+        <link>http://example.org/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+        <description>游戏服务器 - 分类 - kindf</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="self" type="application/rss+xml" /><item>
+    <title>游戏邮件系统</title>
+    <link>http://example.org/posts/server/mail/</link>
+    <pubDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/mail/</guid>
+    <description><![CDATA[功能需求 单人邮件：对特定玩家发送邮件（如后台补偿邮件，背包空间不足道具由邮件发送等） 多人邮件：对一批玩家发送邮件（如排行榜奖励邮件，公会奖励]]></description>
+</item><item>
+    <title>游戏聊天</title>
+    <link>http://example.org/posts/server/chat_server/</link>
+    <pubDate>Fri, 06 Sep 2024 23:41:41 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/chat_server/</guid>
+    <description><![CDATA[游戏聊天实现 聊天功能基本需求 支持玩家与玩家私聊，保存私聊数据 支持多个频道聊天（如队伍频道，公会频道，世界频道，系统频道） 支持敏感词过滤 游戏聊]]></description>
+</item><item>
+    <title>基于 skynet 的卡牌游戏服务器框架</title>
+    <link>http://example.org/posts/server/server_frame/</link>
+    <pubDate>Wed, 04 Sep 2024 15:37:04 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/server_frame/</guid>
+    <description><![CDATA[框架示意图 各个进程及其作用 main 进程：游戏逻辑进程 chat 进程：聊天进程，和 main 进程一一对应 fight 进程：战斗进程，和 main 进程一一对应 record 进程：日志管理进程，和 main]]></description>
+</item></channel>
+</rss>
