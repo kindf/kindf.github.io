@@ -3,9 +3,21 @@
         <title>kindf</title>
         <link>http://example.org/</link>
         <description>kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</lastBuildDate>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 17 Sep 2024 02:46:12 &#43;0800</lastBuildDate>
             <atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
         <item>
+    <title>滚服游戏服务器框架</title>
+    <link>http://example.org/posts/server/server_frame2/</link>
+    <pubDate>Tue, 17 Sep 2024 02:46:12 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/server_frame2/</guid>
+    <description><![CDATA[示意图 各进程及作用 gate 进程： 负责和客户端直连和消息的分发 login 进程： 负责玩家的登录验证并为玩家分配 gameworld 进程 gameworld 进程： 游戏逻辑服务器 global 进程： 与多个 gameworld 进程]]></description>
+</item><item>
+    <title>skynet 的 monitor 线程</title>
+    <link>http://example.org/posts/skynet/skynet_moniter/</link>
+    <pubDate>Tue, 10 Sep 2024 00:32:33 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_moniter/</guid>
+    <description><![CDATA[主要数据结构struct skynet_monitor { ATOM_INT version; int check_version; uint32_t source; uint32_t destination; }; skynet 的每个工作线程对应一个 skynet_monitor 结构体 version：当前的版本号 check_version：检查版]]></description>
+</item><item>
     <title>游戏邮件系统</title>
     <link>http://example.org/posts/server/mail/</link>
     <pubDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</pubDate><author>
@@ -49,21 +61,9 @@
     <description><![CDATA[主要的数据结构 gobal_State 的成员变量 GCObject **rootgc：存放待 GC 对象的链表，所有对象创建之后都会放入该链表中 GCObject *gray：存放标记为灰色的 GC 对象的链表]]></description>
 </item><item>
     <title>skynet的服务</title>
-    <link>http://example.org/posts/skynet_cxt/</link>
+    <link>http://example.org/posts/skynet/skynet_cxt/</link>
     <pubDate>Sat, 16 Dec 2023 02:31:17 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet_cxt/</guid>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_cxt/</guid>
     <description><![CDATA[简述 skynet 可以根据动态库（具有一定的规范）动态的创建出服务 skynet启用多线程处理服务处理消息 服务并不会主动执行逻辑，只有当服务接受到消息时才]]></description>
-</item><item>
-    <title>skynet的服务管理</title>
-    <link>http://example.org/posts/skynet/skynet_hs/</link>
-    <pubDate>Fri, 15 Dec 2023 20:23:46 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_hs/</guid>
-    <description><![CDATA[简析 skynet 是一个 actor 模型的框架，actor 就是 skynet 服务，对应代码中的结构体 skynet_context skynet 中存在若干个 skynet_context ，这些对象通过 handle_storage 来进行管理，根据 handle_storage 可以进行增删查操作 服务]]></description>
-</item><item>
-    <title>skynet的定时器</title>
-    <link>http://example.org/posts/skynet/skynet_timer/</link>
-    <pubDate>Tue, 14 Nov 2023 10:45:32 &#43;0800</pubDate><author>
-                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/skynet/skynet_timer/</guid>
-    <description><![CDATA[简析 skyent 用 5 个链表数组来存储定时事件，分别是 near[256] 和 t[4]，其中 near 数组用来存放即将到期的定时事件，t[0] ~ t[3] 数组分别存放不同时间段的定时事件 插]]></description>
 </item></channel>
 </rss>

@@ -3,7 +3,13 @@
         <title>游戏服务器 - 分类 - kindf</title>
         <link>http://example.org/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
         <description>游戏服务器 - 分类 - kindf</description>
-        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Tue, 17 Sep 2024 02:46:12 &#43;0800</lastBuildDate><atom:link href="http://example.org/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="self" type="application/rss+xml" /><item>
+    <title>滚服游戏服务器框架</title>
+    <link>http://example.org/posts/server/server_frame2/</link>
+    <pubDate>Tue, 17 Sep 2024 02:46:12 &#43;0800</pubDate><author>
+                        <name>kindf</name><uri>https://github.com/kindf</uri></author><guid>http://example.org/posts/server/server_frame2/</guid>
+    <description><![CDATA[示意图 各进程及作用 gate 进程： 负责和客户端直连和消息的分发 login 进程： 负责玩家的登录验证并为玩家分配 gameworld 进程 gameworld 进程： 游戏逻辑服务器 global 进程： 与多个 gameworld 进程]]></description>
+</item><item>
     <title>游戏邮件系统</title>
     <link>http://example.org/posts/server/mail/</link>
     <pubDate>Sun, 08 Sep 2024 12:45:16 &#43;0800</pubDate><author>

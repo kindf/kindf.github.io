@@ -7,34 +7,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
-    <title>游戏邮件系统 - kindf</title><meta name="Description" content=""><meta property="og:title" content="游戏邮件系统" />
-<meta property="og:description" content="功能需求 单人邮件：对特定玩家发送邮件（如后台补偿邮件，背包空间不足道具由邮件发送等） 多人邮件：对一批玩家发送邮件（如排行榜奖励邮件，公会奖励" />
+    <title>滚服游戏服务器框架 - kindf</title><meta name="Description" content=""><meta property="og:title" content="滚服游戏服务器框架" />
+<meta property="og:description" content="示意图 各进程及作用 gate 进程： 负责和客户端直连和消息的分发 login 进程： 负责玩家的登录验证并为玩家分配 gameworld 进程 gameworld 进程： 游戏逻辑服务器 global 进程： 与多个 gameworld 进程" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/posts/server/mail/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-09-08T12:45:16+08:00" />
-<meta property="article:modified_time" content="2024-09-08T12:45:16+08:00" />
+<meta property="og:url" content="http://example.org/posts/server/server_frame2/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-09-17T02:46:12+08:00" />
+<meta property="article:modified_time" content="2024-09-17T02:46:12+08:00" />
 
-<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="游戏邮件系统"/>
-<meta name="twitter:description" content="功能需求 单人邮件：对特定玩家发送邮件（如后台补偿邮件，背包空间不足道具由邮件发送等） 多人邮件：对一批玩家发送邮件（如排行榜奖励邮件，公会奖励"/>
+<meta name="twitter:card" content="summary"/><meta name="twitter:title" content="滚服游戏服务器框架"/>
+<meta name="twitter:description" content="示意图 各进程及作用 gate 进程： 负责和客户端直连和消息的分发 login 进程： 负责玩家的登录验证并为玩家分配 gameworld 进程 gameworld 进程： 游戏逻辑服务器 global 进程： 与多个 gameworld 进程"/>
 <meta name="application-name" content="kindf">
 <meta name="apple-mobile-web-app-title" content="kindf">
 
 <meta name="theme-color" content="#f8f8f8"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/server/mail/" /><link rel="prev" href="http://example.org/posts/server/chat_server/" /><link rel="next" href="http://example.org/posts/skynet/skynet_moniter/" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="canonical" href="http://example.org/posts/server/server_frame2/" /><link rel="prev" href="http://example.org/posts/skynet/skynet_moniter/" />
 <link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/color.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/fontawesome-free/all.min.css">
         <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="/lib/animate/animate.min.css">
         <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
     {
         "@context": "http://schema.org",
         "@type": "BlogPosting",
-        "headline": "游戏邮件系统",
+        "headline": "滚服游戏服务器框架",
         "inLanguage": "zh-CN",
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "http:\/\/example.org\/posts\/server\/mail\/"
-        },"genre": "posts","wordcount":  621 ,
-        "url": "http:\/\/example.org\/posts\/server\/mail\/","datePublished": "2024-09-08T12:45:16+08:00","dateModified": "2024-09-08T12:45:16+08:00","publisher": {
+            "@id": "http:\/\/example.org\/posts\/server\/server_frame2\/"
+        },"genre": "posts","wordcount":  206 ,
+        "url": "http:\/\/example.org\/posts\/server\/server_frame2\/","datePublished": "2024-09-17T02:46:12+08:00","dateModified": "2024-09-17T02:46:12+08:00","publisher": {
             "@type": "Organization",
             "name": "作者"},"authors": [{
                         "@type": "Person",
@@ -113,72 +113,73 @@
     <div id="search-dropdown-mobile"></div>
 </div>
 <main class="main">
-            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">游戏邮件系统</h1><div class="post-meta">
+            <div class="container"><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC", "false")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">滚服游戏服务器框架</h1><div class="post-meta">
             <div class="post-meta-line">
                 <span class="post-author"><span class='author'><span class="author fas fa-user-circle fa-fw"></span><span class='screen-reader-text'>  </span><a href='http://example.org/authors/kindf'>kindf</a></span>
                 </span>&nbsp;<span class="post-category">收录于 </span>&nbsp;<span class="post-category">类别 <a href="/categories/%E6%B8%B8%E6%88%8F%E6%9C%8D%E5%8A%A1%E5%99%A8/"><i class="far fa-folder fa-fw"></i>游戏服务器</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-09-08">2024-09-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 621 字&nbsp;</div>
-        </div><div class="content" id="content"><h4 id="功能需求" class="headerLink">
-    <a href="#%e5%8a%9f%e8%83%bd%e9%9c%80%e6%b1%82" class="header-mark"></a>功能需求</h4><ul>
-<li>单人邮件：对特定玩家发送邮件（如后台补偿邮件，背包空间不足道具由邮件发送等）</li>
-<li>多人邮件：对一批玩家发送邮件（如排行榜奖励邮件，公会奖励邮件等）</li>
-<li>全服邮件：对所有玩家发送邮件（如开服福利邮件，全服补偿邮件等）</li>
-</ul>
-<h4 id="基本设计思路" class="headerLink">
-    <a href="#%e5%9f%ba%e6%9c%ac%e8%ae%be%e8%ae%a1%e6%80%9d%e8%b7%af" class="header-mark"></a>基本设计思路</h4><ul>
-<li>
-<p>简单版本：</p>
-<ul>
-<li>数据储存：用一个全局数据结构 g_mail_list 存放所有邮件，每发送一封邮件（包括个人，多人和全服邮件）就往 g_mail_list 添加 id 自增的邮件，玩家个人信息储存已接收到的邮件</li>
-<li>发邮件：
-<ul>
-<li>往 g_mail_list 插入邮件信息，遍历该邮件的接收玩家列表，如果玩家在线，把邮件信息添加至玩家的邮件字段中并通知客户端，否则不处理</li>
-<li>玩家上线时会拉取 g_mail_list，根据本身的邮件列表和全局邮件列表拉取新添加的邮件并通知客户端</li>
-</ul>
-</li>
-<li>缺陷：
-<ul>
-<li>发送全服邮件时会向所有在线玩家发送邮件，频繁发送多人/全服邮件可能会导致服务器短时间压力过大</li>
-<li>由于单人邮件也存放在 g_mail_list 中，导致 g_mail_list 中的邮件数量过多，玩家登录时遍历该列表耗时会增加</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p>改进方案：</p>
-<ul>
-<li>对于缺陷 1：要发送到玩家的邮件存放在队列中，定时批量处理邮件（削峰平谷）</li>
-<li>对于缺陷 2：可以把单人邮件从 g_mail_list 中剥离出来存放在对应玩家的 cache 中，玩家上线/定时检查缓存中的个人邮件信息</li>
-</ul>
-</li>
-</ul>
-<h4 id="基于-skynet-实现的邮件系统" class="headerLink">
-    <a href="#%e5%9f%ba%e4%ba%8e-skynet-%e5%ae%9e%e7%8e%b0%e7%9a%84%e9%82%ae%e4%bb%b6%e7%b3%bb%e7%bb%9f" class="header-mark"></a>基于 skynet 实现的邮件系统</h4><p><a href="https://imgse.com/i/pAeLL1U" target="_blank" rel="noopener noreferrer"><figure><a class="lightgallery" href="https://s21.ax1x.com/2024/09/09/pAeLL1U.png" title="pAeLL1U.png" data-thumbnail="https://s21.ax1x.com/2024/09/09/pAeLL1U.png">
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2024-09-17">2024-09-17</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 206 字&nbsp;</div>
+        </div><div class="content" id="content"><h4 id="示意图" class="headerLink">
+    <a href="#%e7%a4%ba%e6%84%8f%e5%9b%be" class="header-mark"></a>示意图</h4><p><a href="https://imgse.com/i/pAKkoxe" target="_blank" rel="noopener noreferrer"><figure><a class="lightgallery" href="https://s21.ax1x.com/2024/09/17/pAKkoxe.png" title="pAKkoxe.png" data-thumbnail="https://s21.ax1x.com/2024/09/17/pAKkoxe.png">
         <img
             
             loading="lazy"
-            src="https://s21.ax1x.com/2024/09/09/pAeLL1U.png"
-            srcset="https://s21.ax1x.com/2024/09/09/pAeLL1U.png, https://s21.ax1x.com/2024/09/09/pAeLL1U.png 1.5x, https://s21.ax1x.com/2024/09/09/pAeLL1U.png 2x"
+            src="https://s21.ax1x.com/2024/09/17/pAKkoxe.png"
+            srcset="https://s21.ax1x.com/2024/09/17/pAKkoxe.png, https://s21.ax1x.com/2024/09/17/pAKkoxe.png 1.5x, https://s21.ax1x.com/2024/09/17/pAKkoxe.png 2x"
             sizes="auto"
-            alt="pAeLL1U.png">
+            alt="pAKkoxe.png">
     </a></figure></a></p>
-<ul>
+<h4 id="各进程及作用" class="headerLink">
+    <a href="#%e5%90%84%e8%bf%9b%e7%a8%8b%e5%8f%8a%e4%bd%9c%e7%94%a8" class="header-mark"></a>各进程及作用</h4><ul>
 <li>
-<p>单人邮件：</p>
+<p>gate 进程：</p>
 <ul>
-<li>所有单人邮件都会发送到 cache 服务中</li>
-<li>cache 服务收到邮件信息会记录到对应的玩家 cache 中，如果玩家在线，则通知到客户端</li>
-<li>玩家登录会请求 cache 服务拉取所有缓存邮件</li>
+<li>负责和客户端直连和消息的分发</li>
 </ul>
 </li>
 <li>
-<p>多人/全服邮件：</p>
+<p>login 进程：</p>
 <ul>
-<li>邮件会先发送到 group_mail 服务记录起来</li>
-<li>group_mail 定时批量将邮件发送到在线玩家的 cache 中并通知客户端</li>
-<li>玩家上线会从 cache 请求所有邮件列表</li>
+<li>负责玩家的登录验证并为玩家分配 gameworld 进程</li>
 </ul>
 </li>
+<li>
+<p>gameworld 进程：</p>
+<ul>
+<li>游戏逻辑服务器</li>
+</ul>
+</li>
+<li>
+<p>global 进程：</p>
+<ul>
+<li>与多个 gameworld 进程连接，负责游戏的全局逻辑</li>
+</ul>
+</li>
+<li>
+<p>fight 进程：</p>
+<ul>
+<li>战斗进程，为 gameworld 提供战斗服务</li>
+</ul>
+</li>
+<li>
+<p>database 进程：</p>
+<ul>
+<li>db 进程，与数据库连接</li>
+</ul>
+</li>
+<li>
+<p>centor 进程：</p>
+<ul>
+<li>与多个 global 连接，负责跨服逻辑</li>
+</ul>
+</li>
+</ul>
+<h4 id="登录流程" class="headerLink">
+    <a href="#%e7%99%bb%e5%bd%95%e6%b5%81%e7%a8%8b" class="header-mark"></a>登录流程</h4><ul>
+<li>客户端拉起 SDK 登录渠道并获取 token</li>
+<li>客户端请求 http 服务器获取各个服的 gate 地址</li>
+<li>客户端连接上 gate 并通过 login 进行验证</li>
+<li>login 进程为验证完的用户分配 gameworld</li>
+<li>gameworld 通过 gate 下发玩家登录协议</li>
 </ul>
 </div>
 
@@ -186,7 +187,7 @@
     <div class="post-info">
         <div class="post-info-line">
             <div class="post-info-mod">
-                <span>更新于 2024-09-08</span>
+                <span>更新于 2024-09-17</span>
             </div>
             <div class="post-info-license"></div>
         </div>
@@ -203,8 +204,7 @@
         </section>
     </div>
 
-    <div class="post-nav"><a href="/posts/server/chat_server/" class="prev" rel="prev" title="游戏聊天"><i class="fas fa-angle-left fa-fw"></i>游戏聊天</a>
-            <a href="/posts/skynet/skynet_moniter/" class="next" rel="next" title="skynet 的 monitor 线程">skynet 的 monitor 线程<i class="fas fa-angle-right fa-fw"></i></a></div>
+    <div class="post-nav"><a href="/posts/skynet/skynet_moniter/" class="prev" rel="prev" title="skynet 的 monitor 线程"><i class="fas fa-angle-left fa-fw"></i>skynet 的 monitor 线程</a></div>
 </div>
 </article></div>
         </main><footer class="footer">
